@@ -1,0 +1,17 @@
+export const Icons = {
+  TIFIN_LOGO: require('./tiffinwala-logo.png'),
+  LeftArrow: require('./leftArrow.webp'),
+  SEARCH: require('./search.webp'),
+  MAP_PIN: require('./mapPin.webp'),
+  FILTER: require('./filter.webp'),
+  PROFILE: require('./profile.webp'),
+  CALENDAR: require('./calendar.webp'),
+  ORDER: require('./order.webp'),
+
+  HELP_SUPPORT: require('./help.webp'),
+  SHIELD: require('./shield.webp'),
+  LOGOUT: require('./logout.webp'),
+  BELL: require('./bell.webp'),
+  TOGGLE_ON: require('./toggleOn.webp'),
+  TOGGLE_OFF: require('./toggleOff.webp'),
+};

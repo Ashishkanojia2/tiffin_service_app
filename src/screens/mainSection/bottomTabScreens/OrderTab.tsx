@@ -1,13 +1,14 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
-import RootNavigator from './src/routes/RootNavigator'
 
-const App = () => {
+const OrderTab = () => {
   return (
-    <RootNavigator />
+    <View>
+      <Text>OrderTab</Text>
+    </View>
   )
 }
 
-export default App
+export default OrderTab
 
 const styles = StyleSheet.create({})
