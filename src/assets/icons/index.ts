@@ -17,4 +17,5 @@ export const Icons = {
   STAR_OUTLINE: require('./star_outline.webp'),
   STAR_FILLED: require('./star_filled.webp'),
   RIGHT_ARROW: require('./right_arrow.png'),
+  CORRECT: require('./correct.png'),
 };

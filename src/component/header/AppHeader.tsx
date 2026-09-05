@@ -1,4 +1,4 @@
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Image, StyleSheet, Text, TouchableOpacity, View, ViewStyle } from 'react-native'
 import React, { ReactNode } from 'react'
 import { Icons } from '../../assets/icons'
 import { CommonStyle } from '../../helper/uiComponent/CommonStyle'
@@ -16,7 +16,8 @@ type AppHeaderPropsType = {
     showDoubleTitle?: Boolean
     rightElement?: ReactNode,
     showLeftElement?: Boolean,
-    customeSubTitle?: ReactNode
+    customeSubTitle?: ReactNode,
+    containerStyle?: ViewStyle
 }
 
 const AppHeader = ({
@@ -27,14 +28,15 @@ const AppHeader = ({
     rightElement,
     leftPress,
     showLeftElement = true,
-    customeSubTitle
+    customeSubTitle,
+    containerStyle
 
 }: AppHeaderPropsType) => {
     const navigation = useNavigation()
     const handleBackPress = () => leftPress ? leftPress() : navigation.canGoBack() ? navigation.goBack() : undefined
 
     return (
-        <View style={styles.rootContainer}>
+        <View style={[styles.rootContainer, containerStyle]}>
             <View style={[CommonStyle.flexStyle, { gap: 10 }]}>
                 {
                     showLeftElement &&

@@ -6,6 +6,7 @@ import { Colors } from '../../theme/Colors'
 import { CommonStyle } from '../../helper/uiComponent/CommonStyle'
 import MobileInputField from '../../component/input/MobileInputField'
 import AppButton from '../../component/button/AppButton'
+import Segement from '../../component/segement'
 
 const loginUser = [
     {
@@ -20,34 +21,13 @@ const loginUser = [
 const LoginScreen = ({ navigation }: any) => {
     const [selectedUser, setSelectedUser] = useState("1")
 
-
     return (
         <View style={CommonStyle.appBorderSpacing}>
             <ScrollView showsVerticalScrollIndicator={false}>
                 <AppLogo size={100} />
                 <Text style={styles.titleStyle}>Welcome to TiffinWala</Text>
                 <Text style={styles.subTitle}>Login with your mobile number to continue</Text>
-
-                <View style={styles.userContainer}>
-                    {
-                        loginUser.map((item) => {
-
-                            return (
-                                <TouchableOpacity key={item.id} activeOpacity={0.8}
-                                    style={[styles.baseOptionContainerStyle, {
-                                        backgroundColor: selectedUser === item.id ? Colors.white : "transparent"
-                                    }]}
-                                    onPress={() => setSelectedUser(item.id)}>
-                                    <Text style={[styles.optionTxtStyle, {
-                                        color: selectedUser === item.id ? Colors.primary : Colors.textSecondary
-                                    }]}>{item.lable}</Text>
-                                </TouchableOpacity>
-                            )
-                        }
-                        )
-                    }
-
-                </View>
+                <Segement segementData={loginUser} selectedValue={(txt: string) => setSelectedUser(txt)} containerStyle={{marginTop:30}} />
                 <MobileInputField containerStyle={{ marginVertical: 20 }} />
             </ScrollView>
             <AppButton lable='Send OTP' onPress={() => navigation.navigate("OtpVerificationScreen")} />

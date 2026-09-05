@@ -1,9 +1,8 @@
-import { Image, StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { Colors } from '../../theme/Colors';
 import { Fonts } from '../../assets/fonts';
 import { CommonStyle } from '../../helper/uiComponent/CommonStyle';
-import { Icons } from '../../assets/icons';
 import AppLogo from '../../component/other/AppLogo';
 
 const SplashScreen = ({ navigation }: any) => {

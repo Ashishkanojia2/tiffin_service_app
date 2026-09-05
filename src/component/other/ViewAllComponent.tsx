@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TextStyle, TouchableOpacity, View } from 'react-native'
+import { StyleSheet, Text, TextStyle, TouchableOpacity, View, ViewStyle } from 'react-native'
 import React from 'react'
 import { CommonStyle } from '../../helper/uiComponent/CommonStyle'
 import { Fonts } from '../../assets/fonts'
@@ -9,18 +9,20 @@ type ViewAllComponentProps = {
     lable: string
     onRightPress?: () => void,
     lableStyle?: TextStyle
-    rightLableStyle?: TextStyle
+    rightLableStyle?: TextStyle,
+    ContaineStyle?: ViewStyle
 }
 const ViewAllComponent = ({
     rightTxt,
     onRightPress,
     lableStyle,
     rightLableStyle,
-    lable
+    lable,
+    ContaineStyle
 
 }: ViewAllComponentProps) => {
     return (
-        <View style={styles.rootContainer}>
+        <View style={[styles.rootContainer, ContaineStyle]}>
             <Text style={[styles.leftTxtStyle, lableStyle]}>{lable}</Text>
             {
                 rightTxt &&

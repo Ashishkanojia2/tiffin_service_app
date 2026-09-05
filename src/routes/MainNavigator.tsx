@@ -28,6 +28,8 @@ import RateScreen from '../screens/mainSection/RateScreen'
 import NotificationScreen from '../screens/mainSection/NotificationScreen'
 import BottomTabNavigator from './BottomTabNavigator'
 import MealDetailsScreen from '../screens/mainSection/MealDetailsScreen'
+import SubscriptionScreen from '../screens/mainSection/subscription/SubscriptionScreen'
+import SubscriptionConfirmedScreen from '../screens/mainSection/subscription/SubscriptionConfirmedScreen'
 
 const Stack = createNativeStackNavigator()
 
@@ -51,6 +53,8 @@ const MainNavigator = () => {
             <Stack.Screen name="RateScreen" component={RateScreen} />
             <Stack.Screen name="NotificationScreen" component={NotificationScreen} />
             <Stack.Screen name="MealDetailsScreen" component={MealDetailsScreen} />
+            <Stack.Screen name="SubscriptionScreen" component={SubscriptionScreen} />
+            <Stack.Screen name="SubscriptionConfirmedScreen" component={SubscriptionConfirmedScreen} />
         </Stack.Navigator>
     )
 }

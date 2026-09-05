@@ -5,16 +5,11 @@ import { CommonStyle } from '../../helper/uiComponent/CommonStyle'
 import { Images } from '../../assets/images'
 import { Fonts } from '../../assets/fonts'
 import { Icons } from '../../assets/icons'
-
-
 type MealContainerProps = {
     onPress?: () => void
 }
-
-
 const MealContainer = ({
     onPress,
-
 
 }: MealContainerProps) => {
     return (

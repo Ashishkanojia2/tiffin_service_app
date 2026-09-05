@@ -1,10 +1,10 @@
-import { Image, StyleSheet, Text, TextStyle, TouchableOpacity, ViewStyle } from 'react-native'
+import { Image, StyleSheet, Text, TextStyle, TouchableOpacity, TouchableOpacityProps, ViewStyle } from 'react-native'
 import React, { ReactNode } from 'react'
 import { Colors } from '../../theme/Colors'
 import { CommonStyle } from '../../helper/uiComponent/CommonStyle'
 import { Fonts } from '../../assets/fonts'
 
-type ContainerPropsType = {
+type ContainerPropsType = TouchableOpacityProps & {
     lable?: string,
     leftElement?: ReactNode,
     rightElement?: ReactNode,
@@ -20,10 +20,11 @@ const Container = ({
     rightElement,
     containerStyle,
     onPress,
-    lableStyle
+    lableStyle,
+    ...rest
 }: ContainerPropsType) => {
     return (
-        <TouchableOpacity style={[styles.container, containerStyle]} activeOpacity={0.8} onPress={onPress}>
+        <TouchableOpacity {...rest} style={[styles.container, containerStyle]} activeOpacity={0.8} onPress={onPress}>
             {
                 leftElement && leftElement
             }
