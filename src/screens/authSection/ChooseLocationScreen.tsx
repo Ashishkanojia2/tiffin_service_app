@@ -34,7 +34,7 @@ const ChooseLocationScreen = ({ navigation }: any) => {
                     ))
                 }
             </ScrollView>
-            <AppButton lable='Save & Continue' onPress={() => navigation.navigate("BottomTabNavigator")} />
+            <AppButton lable='Save & Continue' onPress={() => navigation.navigate("MainNavigator")} />
         </View>
     )
 }

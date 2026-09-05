@@ -38,9 +38,7 @@ const AppHeader = ({
             <View style={[CommonStyle.flexStyle, { gap: 10 }]}>
                 {
                     showLeftElement &&
-                    <TouchableOpacity activeOpacity={0.8} onPress={handleBackPress}>
-                        <IconContainer source={Icons.LeftArrow} style={{ height: 20, width: 20 }} />
-                    </TouchableOpacity>
+                    <IconContainer source={Icons.LeftArrow} style={{ height: 20, width: 20 }} onPress={handleBackPress} />
                 }
 
                 <View>

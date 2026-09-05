@@ -8,6 +8,9 @@ import SafeAreaFile from '../../../helper/uiComponent/SafeAreaFile'
 import { Icons } from '../../../assets/icons'
 import { Fonts } from '../../../assets/fonts'
 import Container from '../../../component/container/Container'
+import IconContainer from '../../../component/other/IconContainer'
+import ViewAllComponent from '../../../component/other/ViewAllComponent'
+import MealContainer from '../../../component/container/MealContainer'
 const { height } = Dimensions.get("window")
 
 const FilterOption = [
@@ -32,7 +35,7 @@ const FilterOption = [
         option: "Spicey"
     },
 ]
-const HomeTab = () => {
+const HomeTab = ({ navigation }: any) => {
     const [selectedFilter, setSelectFilter] = useState<string[]>([]);
 
     const filterHandler = (label: string) => {
@@ -46,8 +49,6 @@ const HomeTab = () => {
             setSelectFilter(prev => [...prev, label]);
         }
     };
-
-
     return (
         <View style={CommonStyle.appBackground}>
             <SafeAreaFile>
@@ -76,6 +77,9 @@ const HomeTab = () => {
                                     resizeMode="contain"
                                 />
                             </TouchableOpacity>
+                        }
+                        rightElement={
+                            <IconContainer source={Icons.BELL} style={{ height: 20, width: 20 }} onPress={() => navigation.navigate("NotificationScreen")} />
                         }
                     />
                     <SearchField
@@ -106,7 +110,14 @@ const HomeTab = () => {
                         </ScrollView>
                     </View>
 
-                    <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ gap: 10, paddingVertical: 10 }}>
+                    <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ gap: 10, marginTop: 40 }}>
+                        <ViewAllComponent lable='Tiffin near you' rightTxt='3 kitchens' />
+                        <MealContainer onPress={() => navigation.navigate("MealDetailsScreen")} />
+                        <MealContainer />
+                        <MealContainer />
+                        <MealContainer />
+                        <MealContainer />
+                        <MealContainer />
                     </ScrollView>
                 </View>
             </SafeAreaFile>

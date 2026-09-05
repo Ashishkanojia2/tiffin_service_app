@@ -14,4 +14,7 @@ export const Icons = {
   BELL: require('./bell.webp'),
   TOGGLE_ON: require('./toggleOn.webp'),
   TOGGLE_OFF: require('./toggleOff.webp'),
+  STAR_OUTLINE: require('./star_outline.webp'),
+  STAR_FILLED: require('./star_filled.webp'),
+  RIGHT_ARROW: require('./right_arrow.png'),
 };

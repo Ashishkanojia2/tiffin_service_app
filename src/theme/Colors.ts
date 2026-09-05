@@ -14,6 +14,7 @@ export const Colors = {
   accent: '#FFC145',
   yellow: '#fbe5be',
   light_yellow: '#fbf0e4',
+  // yellowShade:"#fbf0e4"
 
   // Background & Surface
   background: '#FFF8F1',
