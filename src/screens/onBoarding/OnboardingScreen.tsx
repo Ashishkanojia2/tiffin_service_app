@@ -83,7 +83,7 @@ const OnboardingScreen = ({ navigation }: any) => {
                     <AppButton lable='Next' buttonType="FIELD"
                         buttonStyle={{ width: currentIndex === onBoardingData.length - 1 ? '100%' : '70%', }}
                         sufix={
-                            <Image source={Icons.RIGHT_ARROW} style={{ height: 20, width: 15, marginLeft: 10 }} resizeMode='cover' />
+                            <Image source={Icons.RIGHT_ARROW} style={{ height: 20, width: 15, marginLeft: 10 }} tintColor={Colors.white} resizeMode='cover' />
                         }
                         onPress={handleNextPress} />
                     {

@@ -28,13 +28,13 @@ const MenuContainer = ({
     return (
         <TouchableOpacity style={styles.rootContainer} activeOpacity={0.8} onPress={data.onPress} key={data.id}>
             <View style={[CommonStyle.flexStyle, { gap: 5, flex: 5, }]}>
-                <Image source={data?.image} style={{ height: 70, width: 70, borderRadius: 15 , alignSelf:"flex-start"}} resizeMode='cover' />
+                <Image source={data?.image} style={{ height: 70, width: 70, borderRadius: 15, alignSelf: "flex-start" }} resizeMode='cover' />
                 <View style={{ flex: 1 }}>
                     <View style={[CommonStyle.flexStyle, { justifyContent: "space-between", }]}>
                         <Text style={styles.titleTxtStyle}>{data.KitchenName}</Text>
                         <View style={[styles.dotContaner, {
                             backgroundColor: "#def9e5",
-}]}>
+                        }]}>
                             <View style={styles.dot} />
                             <Text style={styles.mealTypeTxtStyle}>Veg</Text>
                         </View>
@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         paddingVertical: 5,
         borderRadius: 15,
-        alignSelf:"flex-start"
+        alignSelf: "flex-start"
     },
     dot: {
         width: 10, height: 10,

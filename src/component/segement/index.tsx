@@ -24,9 +24,9 @@ const Segement = ({ segementData, selectedValue, containerStyle, optionContainer
           return (
             <TouchableOpacity key={item.id} activeOpacity={0.8}
               style={
-                [styles.baseOptionContainerStyle, {
-                  backgroundColor: selectedUser === item.id ? Colors.white : "transparent"
-                }, optionContainerStyle]}
+                [styles.baseOptionContainerStyle,
+                selectedUser === item.id ? styles.selectedOption : undefined
+                  , optionContainerStyle]}
               onPress={() => {
                 selectedValue(item?.lable || "")
                 setSelectedUser(item.id)
@@ -56,11 +56,14 @@ const styles = StyleSheet.create({
   baseOptionContainerStyle: {
     flex: 1,
     borderRadius: 15,
-    backgroundColor: Colors.white,
     justifyContent: "center",
     alignItems: "center",
     paddingHorizontal: 15,
     paddingVertical: 10,
+  },
+
+  selectedOption: {
+    backgroundColor: Colors.white,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -71,9 +74,6 @@ const styles = StyleSheet.create({
 
     // Shadow - Android
     elevation: 2,
-  },
-  selectedOption: {
-    backgroundColor: Colors.white,
   },
   unSelectedOption: {
   },

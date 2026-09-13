@@ -19,13 +19,15 @@ const MobileInputField = ({ containerStyle, showError, errorMsg }: MobileInputFi
                 <Text style={[styles.labelTxt]}>Mobile number*</Text>
             </View>
 
-            <View style={{ flexDirection: "row", gap: 10, marginBottom: 5 }}>
+            <View style={{ flexDirection: "row", gap: 10, marginBottom: 5,}}>
                 <InputField inputContainerStyle={{ width: 50, borderColor: Colors.border, }}
                     style={{
                         backgroundColor: Colors.light_yellow,
+                        borderRadius:18
+                        
                     }}
                     inputWrapperStyle={{
-                        backgroundColor: Colors.light_yellow,
+                        borderRadius:18
                     }}
                     placeholder='+91'
                     placeholderTextColor={Colors.textPrimary} editable={false} />

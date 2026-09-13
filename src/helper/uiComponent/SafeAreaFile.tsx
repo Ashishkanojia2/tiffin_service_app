@@ -1,6 +1,6 @@
-import { SafeAreaView, StatusBar } from 'react-native'
+import {  StatusBar } from 'react-native'
 import React, { ReactNode } from 'react'
-import { SafeAreaProvider } from 'react-native-safe-area-context'
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context'
 import { Colors } from '../../theme/Colors'
 type Props = {
     children?: ReactNode;

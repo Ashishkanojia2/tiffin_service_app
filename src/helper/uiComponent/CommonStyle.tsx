@@ -3,9 +3,11 @@ import { Colors } from "../../theme/Colors";
 
 export const CommonStyle = StyleSheet.create({
     appBorderSpacing: {
-        paddingHorizontal: 12,
+        // paddingHorizontal:12,
+        marginHorizontal: 12,
         // backgroundColor: Colors.background,
-        flex: 1
+        flex: 1,
+        // backgroundColor:"green"
     },
     flexStyle: {
         flexDirection: "row",
