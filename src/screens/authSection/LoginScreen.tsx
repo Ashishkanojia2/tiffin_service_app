@@ -7,19 +7,29 @@ import { CommonStyle } from '../../helper/uiComponent/CommonStyle'
 import MobileInputField from '../../component/input/MobileInputField'
 import AppButton from '../../component/button/AppButton'
 import Segement from '../../component/segement'
+import Storage from '../../utils/Storage'
 
 const loginUser = [
     {
-        id: "1",
-        lable: "Login as Byuer",
+        id: "buyer",
+        lable: "Login as Buyer",
     },
     {
-        id: "2",
+        id: "seller",
         lable: "Login as Seller"
     }
 ]
 const LoginScreen = ({ navigation }: any) => {
-    const [selectedUser, setSelectedUser] = useState("1")
+    const [selectedUser, setSelectedUser] = useState("buyer")
+
+    const loginHandler = async () => {
+        try {
+            await Storage.setItem({ key: 'userType', value: selectedUser })
+            navigation.navigate("OtpVerificationScreen")
+        } catch (error) {
+            throw error
+        }
+    }
 
     return (
         <View style={CommonStyle.appBorderSpacing}>
@@ -27,10 +37,10 @@ const LoginScreen = ({ navigation }: any) => {
                 <AppLogo size={100} />
                 <Text style={styles.titleStyle}>Welcome to TiffinWala</Text>
                 <Text style={styles.subTitle}>Login with your mobile number to continue</Text>
-                <Segement segementData={loginUser} selectedValue={(txt: string) => setSelectedUser(txt)} containerStyle={{marginTop:30}} />
+                <Segement segementData={loginUser} selectedValue={(txt: string) => setSelectedUser(txt)} containerStyle={{ marginTop: 30 }} />
                 <MobileInputField containerStyle={{ marginVertical: 20 }} />
             </ScrollView>
-            <AppButton lable='Send OTP' onPress={() => navigation.navigate("OtpVerificationScreen")} />
+            <AppButton lable='Send OTP' onPress={loginHandler} />
             <Text style={styles.policyMsg}>By continuing you agree to our Terms & Privacy Policy</Text>
         </View>
     )

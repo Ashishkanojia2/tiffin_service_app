@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TextStyle, TouchableOpacity, View, ViewStyle } from 'react-native'
+import { StyleProp, StyleSheet, Text, TextStyle, TouchableOpacity, View, ViewStyle } from 'react-native'
 import React, { useState } from 'react'
 import { Colors } from '../../theme/Colors'
 import { Fonts } from '../../assets/fonts'
@@ -12,32 +12,38 @@ export type SegementPropType = {
   containerStyle?: ViewStyle,
   optionContainerStyle?: ViewStyle,
   optionTxtStyle?: TextStyle,
+  lable?: string
+  labelStyle?: StyleProp<TextStyle>
 }
 
 
-const Segement = ({ segementData, selectedValue, containerStyle, optionContainerStyle, optionTxtStyle }: SegementPropType) => {
-  const [selectedUser, setSelectedUser] = useState("1")
+const Segement = ({ segementData, selectedValue, containerStyle, optionContainerStyle, optionTxtStyle, lable, labelStyle }: SegementPropType) => {
+  const [selectedUser, setSelectedUser] = useState(segementData?.[0]?.id || "")
   return (
-    <View style={[styles.userContainer, containerStyle]}>
-      {
-        segementData?.map((item) => {
-          return (
-            <TouchableOpacity key={item.id} activeOpacity={0.8}
-              style={
-                [styles.baseOptionContainerStyle,
-                selectedUser === item.id ? styles.selectedOption : undefined
-                  , optionContainerStyle]}
-              onPress={() => {
-                selectedValue(item?.lable || "")
-                setSelectedUser(item.id)
-              }}>
-              <Text style={[styles.optionTxtStyle, {
-                color: selectedUser === item.id ? Colors.primary : Colors.textSecondary
-              }, optionTxtStyle]}>{item.lable}</Text>
-            </ TouchableOpacity>
-          )
-        })
-      }
+    <View>
+        {lable && <Text style={[styles.labelTxt, labelStyle]}>{lable}</Text>}
+      <View style={[styles.userContainer, containerStyle]}>
+        {
+          segementData?.map((item) => {
+            return (
+              <TouchableOpacity key={item.id} activeOpacity={0.8}
+                style={
+                  [styles.baseOptionContainerStyle,
+                  selectedUser === item.id ? styles.selectedOption : undefined
+                    , optionContainerStyle]}
+                onPress={() => {
+                  selectedValue(item?.id || "")
+                  // selectedValue(item?.lable || "")
+                  setSelectedUser(item.id)
+                }}>
+                <Text style={[styles.optionTxtStyle, {
+                  color: selectedUser === item.id ? Colors.primary : Colors.textSecondary
+                }, optionTxtStyle]}>{item.lable}</Text>
+              </ TouchableOpacity>
+            )
+          })
+        }
+      </View>
     </View>
 
   )
@@ -82,4 +88,12 @@ const styles = StyleSheet.create({
     fontFamily: Fonts.Poppins.Medium,
     color: Colors.primary
   },
+  labelTxt: {
+    fontSize: 16,
+    marginBottom: 4,
+    fontFamily: Fonts.Inter.Medium,
+    color: Colors.textSecondary,
+  },
+
+
 })

@@ -26,7 +26,10 @@ export const Colors = {
 
   // Border
   border: '#EDE3D8',
-  green:"#27935b",
+  green: '#27935b',
+
+  hightLighted_green: '#80f4b8',
+  hightLighted_red: '#f3a29f',
 
   // Status
   success: '#3FA34D',

@@ -1,4 +1,4 @@
-import { Image, StyleSheet, Text, TextStyle, TouchableOpacity, TouchableOpacityProps, ViewStyle } from 'react-native'
+import { Image, StyleProp, StyleSheet, Text, TextStyle, TouchableOpacity, TouchableOpacityProps, ViewStyle } from 'react-native'
 import React, { ReactNode } from 'react'
 import { Colors } from '../../theme/Colors'
 import { CommonStyle } from '../../helper/uiComponent/CommonStyle'
@@ -8,7 +8,7 @@ type ContainerPropsType = TouchableOpacityProps & {
     lable?: string,
     leftElement?: ReactNode,
     rightElement?: ReactNode,
-    containerStyle?: ViewStyle,
+    containerStyle?: StyleProp<ViewStyle>,
     onPress?: () => void
     lableStyle?: TextStyle
 

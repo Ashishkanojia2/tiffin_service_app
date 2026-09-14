@@ -6,22 +6,29 @@ import { Colors } from '../../theme/Colors'
 import { CommonStyle } from '../../helper/uiComponent/CommonStyle'
 import AppButton from '../../component/button/AppButton'
 import InputField from '../../component/input/InputField'
+import Storage from '../../utils/Storage'
 const OtpVerificationScreen = ({ navigation }: any) => {
     const OTP_LENGTH = 6
     const RESEND_TIME = 50
     const [otp, setOtp] = useState<string[]>(Array(OTP_LENGTH).fill(''))
     const [timer, setTimer] = useState(RESEND_TIME)
     const [errorMsg, setErrorMsg] = useState('')
-
     const inputRefs = useRef<Array<TextInput | null>>([])
+    const [userType, setUserType] = useState('')
 
+    const getUserType = async () => {
+        const userType = await Storage.getItem({ key: 'userType' })
+        console.log('userType:', userType)
+        setUserType(userType || '')
+    }
+    useEffect(() => {
+        getUserType()
+    }, [])
 
-    // Timer
     useEffect(() => {
         if (timer === 0) {
             return
         }
-
         const interval = setInterval(() => {
             setTimer(prev => prev - 1)
         }, 1000)
@@ -68,15 +75,20 @@ const OtpVerificationScreen = ({ navigation }: any) => {
     }
     const handleContinue = () => {
 
-        navigation.navigate('SubscriptionScreen')
-        const otpValue = otp.join('')
-
-        if (otpValue.length !== OTP_LENGTH) {
-            // Show validation message
-            console.log('Please enter complete OTP')
-            return
+        if (userType === 'buyer') {
+            navigation.navigate('ChooseLocationScreen')
+        } else if (userType === 'seller') {
+            navigation.navigate('KitchenRegisterScreen')
         }
-        console.log('OTP:', otpValue)
+        // navigation.navigate('SubscriptionScreen')
+        // const otpValue = otp.join('')
+
+        // if (otpValue.length !== OTP_LENGTH) {
+        //     // Show validation message
+        //     console.log('Please enter complete OTP')
+        //     return
+        // }
+        // console.log('OTP:', otpValue)
     }
 
     return (
@@ -131,7 +143,7 @@ const OtpVerificationScreen = ({ navigation }: any) => {
                     </Text>
                 </View>
             </ScrollView>
-            <AppButton lable='Verify & Continue' onPress={() => navigation.navigate("ChooseLocationScreen")} />
+            <AppButton lable='Verify & Continue' onPress={handleContinue} />
             <Text style={styles.policyMsg}>By continuing you agree to our Terms & Privacy Policy</Text>
         </View>
     )

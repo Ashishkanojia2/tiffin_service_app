@@ -30,6 +30,7 @@ const InputField = forwardRef<TextInput, InputProps>(
             leftViewStyle,
             showError,
             errorMsg,
+            multiline = false,
             ...rest
         },
         ref,
@@ -47,7 +48,16 @@ const InputField = forwardRef<TextInput, InputProps>(
                     <TextInput
                         ref={ref as any}
                         placeholderTextColor={Colors.textSecondary}
-                        style={[styles.input, style]}
+                        style={[
+                            styles.input,
+                            style,
+                            multiline && {
+                                minHeight: 100,
+                                textAlignVertical: 'top',
+                                paddingBottom:5
+                            },
+                        ]}
+                        multiline={multiline}
                         cursorColor={Colors.primary}
                         {...rest}
                     />
@@ -105,7 +115,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         marginBottom: 4,
         fontFamily: Fonts.Inter.Medium,
-        color: Colors.black,
+        color: Colors.textSecondary,
     },
     labelStyle: {
         flexDirection: "row",
