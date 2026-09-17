@@ -11,7 +11,8 @@ export const CommonStyle = StyleSheet.create({
     },
     flexStyle: {
         flexDirection: "row",
-        alignItems: "center"
+        alignItems: "center",
+        gap:5
     },
     appBackground: {
         flex: 1,

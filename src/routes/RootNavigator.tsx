@@ -10,7 +10,7 @@ import MainNavigator from './MainNavigator'
 const Stack = createNativeStackNavigator()
 const RootNavigator = () => {
     return (
-        <NavigationContainer>
+        <NavigationContainer>   
             <Stack.Navigator initialRouteName='AuthNavigator' screenOptions={{
                 headerShown: false,
             }}>

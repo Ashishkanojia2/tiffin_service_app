@@ -8,7 +8,7 @@ import { Colors } from '../../theme/Colors'
 import { useNavigation } from '@react-navigation/native'
 
 
-type AppHeaderPropsType = {
+export type AppHeaderPropsType = {
     subTitlePress?: () => void,
     leftPress?: () => void,
     title?: string,

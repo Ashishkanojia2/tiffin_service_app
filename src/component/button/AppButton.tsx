@@ -1,10 +1,10 @@
-import { StyleSheet, Text, TextStyle, TouchableOpacity, View, ViewStyle } from 'react-native'
+import { StyleProp, StyleSheet, Text, TextStyle, TouchableOpacity, View, ViewStyle } from 'react-native'
 import React, { ReactNode } from 'react'
 import { Colors } from '../../theme/Colors'
 import { Fonts } from '../../assets/fonts'
 
 type AppButtonStyle = {
-    buttonStyle?: ViewStyle,
+    buttonStyle?: StyleProp<ViewStyle>,
     textStyle?: TextStyle,
     onPress?: () => void,
     outlineStyle?: boolean,

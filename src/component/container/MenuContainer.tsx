@@ -4,10 +4,13 @@ import { Colors } from '../../theme/Colors'
 import { CommonStyle } from '../../helper/uiComponent/CommonStyle'
 import { Fonts } from '../../assets/fonts'
 import AppButton from '../button/AppButton'
+import IconContainer from '../other/IconContainer'
+import { Icons } from '../../assets/icons'
 
 export type MenuContainerPropsType = {
     data: MenuDataPropsType,
-    RatePress?: () => void,
+    isEditable?: boolean,
+    onEditPress?: () => void
 
 }
 export type MenuDataPropsType = {
@@ -23,18 +26,17 @@ export type MenuDataPropsType = {
 
 const MenuContainer = ({
     data,
-    RatePress
+    isEditable = false,
+    onEditPress
 }: MenuContainerPropsType) => {
     return (
         <TouchableOpacity style={styles.rootContainer} activeOpacity={0.8} onPress={data.onPress} key={data.id}>
             <View style={[CommonStyle.flexStyle, { gap: 5, flex: 5, }]}>
                 <Image source={data?.image} style={{ height: 70, width: 70, borderRadius: 15, alignSelf: "flex-start" }} resizeMode='cover' />
                 <View style={{ flex: 1 }}>
-                    <View style={[CommonStyle.flexStyle, { justifyContent: "space-between", }]}>
-                        <Text style={styles.titleTxtStyle}>{data.KitchenName}</Text>
-                        <View style={[styles.dotContaner, {
-                            backgroundColor: "#def9e5",
-                        }]}>
+                    <View style={[CommonStyle.flexStyle, { gap: isEditable ? 10 : 0 }]}>
+                        <Text style={[styles.titleTxtStyle, { flex: isEditable ? 0 : 1 }]}>{data.KitchenName}</Text>
+                        <View style={[styles.dotContaner, { backgroundColor: "#def9e5", }]}>
                             <View style={styles.dot} />
                             <Text style={styles.mealTypeTxtStyle}>Veg</Text>
                         </View>
@@ -42,6 +44,10 @@ const MenuContainer = ({
                     <Text style={styles.subTitle}>{data.foodItem}</Text>
                     <Text style={styles.amtStyle}>₹ {data.amount}</Text>
                 </View>
+                {
+                    isEditable && 
+                <IconContainer source={Icons.EDIT} style={{ height: 20, width: 20 }} onPress={onEditPress} />
+                }
 
             </View>
 
@@ -75,7 +81,7 @@ const styles = StyleSheet.create({
         fontSize: 15,
         color: Colors.textPrimary,
         fontFamily: Fonts.Poppins.SemiBold,
-        flex: 1
+        // 
     },
     subTitle: {
         fontSize: 14,

@@ -7,6 +7,7 @@ import { Colors } from '../../../theme/Colors'
 import { Fonts } from '../../../assets/fonts'
 import AppButton from '../../../component/button/AppButton'
 import { Icons } from '../../../assets/icons'
+import LogoutModal from '../../../component/modal/LogoutModal'
 
 type ProfileTabOptions = {
     id: string,
@@ -46,8 +47,9 @@ const ProfileTabOptions: ProfileTabOptions[] = [
 ]
 
 
-const ProfileTab = () => {
+const ProfileTab = ({navigation}:any) => {
     const [isNotificationEnable, setIsNotificationEnable] = useState(false)
+      const [logoutVisible, setLogoutVisible] = useState(false)
     return (
         <View style={CommonStyle.appBackground}>
             <SafeAreaFile>
@@ -117,6 +119,7 @@ const ProfileTab = () => {
                                 color: Colors.error,
                                 fontFamily: Fonts.Poppins.Medium
                             }}
+                            onPress={() => setLogoutVisible(true)}
                         />
                         <Text style={styles.appVerionTextStyle}>
                             TiffinWala v1.0 • Made in India
@@ -124,6 +127,10 @@ const ProfileTab = () => {
                     </ScrollView>
                 </View>
             </SafeAreaFile>
+            <LogoutModal isVisible={logoutVisible}
+                onClose={() => setLogoutVisible(false)}
+                onLogout={() => navigation.navigate("AuthNavigator")}
+            />
         </View>
     )
 }

@@ -5,12 +5,12 @@ import LoginScreen from '../screens/authSection/LoginScreen'
 import OtpVerificationScreen from '../screens/authSection/OtpVerificationScreen'
 import SafeAreaFile from '../helper/uiComponent/SafeAreaFile'
 import ChooseLocationScreen from '../screens/authSection/ChooseLocationScreen'
-import KitchenRegisterScreen from '../screens/authSection/agentSection/KitchenRegisterScreen'
+import KitchenRegisterScreen from '../screens/authSection/sellerSection/KitchenRegisterScreen'
 const Stack = createNativeStackNavigator()
 const AuthNavigator = () => {
     return (
         <SafeAreaFile>
-            <Stack.Navigator initialRouteName='KitchenRegisterScreen' screenOptions={{
+            <Stack.Navigator initialRouteName='LoginScreen' screenOptions={{
                 headerShown: false,
                 contentStyle: {
                     backgroundColor: Colors.background,

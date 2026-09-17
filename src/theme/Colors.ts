@@ -2,10 +2,12 @@ export const Colors = {
   // Base
   white: '#FFFFFF',
   black: '#000000',
+  backDrop :"#111111a8",
 
   // Primary
   primary: '#FF7A30',
   primaryDark: '#E85D1F',
+  light_primary_shade :"#fff1ea",
 
   // Secondary
   secondary: '#4C9A63',
@@ -27,6 +29,7 @@ export const Colors = {
   // Border
   border: '#EDE3D8',
   green: '#27935b',
+  light_green_shade :"#def9e5",
 
   hightLighted_green: '#80f4b8',
   hightLighted_red: '#f3a29f',

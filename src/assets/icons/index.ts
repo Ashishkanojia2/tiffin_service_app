@@ -4,7 +4,7 @@ export const Icons = {
   SEARCH: require('./search.webp'),
   MAP_PIN: require('./mapPin.webp'),
   FILTER: require('./filter.webp'),
-  PROFILE: require('./profile.webp'),
+  PROFILE: require('./user.png'),
   CALENDAR: require('./calendar.webp'),
   ORDER: require('./order.webp'),
 
@@ -19,4 +19,13 @@ export const Icons = {
   RIGHT_ARROW: require('./right_arrow.png'),
   CORRECT: require('./correct.png'),
   CAMERA: require('./camera.png'),
+
+  CUTLERY: require('./cutlery.png'),
+  MEAL: require('./dinner.png'),
+  USERS: require('./users.png'),
+  DASHBOARD: require('./dashboard.png'),
+  RUPEE: require('./rupee.png'),
+  RISE: require('./rise.png'),
+  EDIT: require('./edit.png'),
+  CLOSE: require('./close.png'),
 };

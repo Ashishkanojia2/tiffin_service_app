@@ -22,7 +22,7 @@ const deliveryTypeData = [
     }
 ]
 
-const KitchenRegisterScreen = () => {
+const KitchenRegisterScreen = ({ navigation }: any) => {
     const [mealType, setMealtype] = useState<string[]>([])
     const [DeliveryType, setDeliveryType] = useState<string>("homeDelivery")
 
@@ -118,7 +118,7 @@ const KitchenRegisterScreen = () => {
                         placeholder='Enter information about your kitchen'
                         multiline
                     />
-                    <AppButton lable="Register Kitchen"/>
+                    <AppButton lable="Register Kitchen" onPress={() => { navigation.navigate("MainNavigator") }} />
                 </View>
             </ScrollView>
         </View >
@@ -147,6 +147,7 @@ const styles = StyleSheet.create({
         fontSize: 14,
         fontFamily: Fonts.Poppins.Medium,
         color: Colors.textSecondary,
+         textAlign:"center"
     },
     mealTypeContainer: {
         flex: 1,
