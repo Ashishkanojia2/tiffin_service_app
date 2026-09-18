@@ -10,6 +10,9 @@ import SubscriptionConfirmedScreen from '../screens/mainSection/subscription/Sub
 import SellerBottomTabNavigator from './SellerBottomTabNavigator'
 import Storage from '../utils/Storage'
 import ReviewScreen from '../screens/mainSection/sellerSection/ReviewScreen'
+import HelpAndSupportScreen from '../screens/infoSection/HelpAndSupportScreen'
+import TermsAndConditionsScreen from '../screens/infoSection/TermsAndConditionsScreen'
+import PrivacyPolicyScreen from '../screens/infoSection/PrivacyPolicyScreen'
 
 const Stack = createNativeStackNavigator()
 
@@ -52,6 +55,9 @@ const MainNavigator = () => {
             <Stack.Screen name="SubscriptionScreen" component={SubscriptionScreen} />
             <Stack.Screen name="SubscriptionConfirmedScreen" component={SubscriptionConfirmedScreen} />
             <Stack.Screen name="ReviewScreen" component={ReviewScreen} />
+            <Stack.Screen name="HelpAndSupportScreen" component={HelpAndSupportScreen} />
+            <Stack.Screen name="TermsAndConditionsScreen" component={TermsAndConditionsScreen} />
+            <Stack.Screen name="PrivacyPolicyScreen" component={PrivacyPolicyScreen} />
 
         </Stack.Navigator>
     )

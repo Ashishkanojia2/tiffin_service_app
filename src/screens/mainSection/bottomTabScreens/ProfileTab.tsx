@@ -40,13 +40,17 @@ const ProfileTabOptions: ProfileTabOptions[] = [
         navigateTo: "HelpAndSupportScreen"
     }, {
         id: "5",
-        option: "Term & privacy",
+        option: "Term & condition",
         icon: Icons.SHIELD,
-        navigateTo: "TermScreen"
+        navigateTo: "TermsAndConditionsScreen"
+    },
+     {
+        id: "5",
+        option: "Privacy policy",
+        icon: Icons.SHIELD,
+        navigateTo: "PrivacyPolicyScreen"
     },
 ]
-
-
 const ProfileTab = ({navigation}:any) => {
     const [isNotificationEnable, setIsNotificationEnable] = useState(false)
       const [logoutVisible, setLogoutVisible] = useState(false)
@@ -88,6 +92,7 @@ const ProfileTab = ({navigation}:any) => {
                                         flex: 1
                                     }}
                                         activeOpacity={0.7}
+                                        onPress={()=>navigation.navigate(item.navigateTo)}
                                     >
                                         <View style={[CommonStyle.flexStyle, { gap: 10 }]}>
                                             <Image source={item.icon} style={{ height: 20, width: 20 }} tintColor={Colors.textSecondary} resizeMode='contain' />
