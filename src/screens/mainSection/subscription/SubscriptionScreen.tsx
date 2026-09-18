@@ -13,10 +13,11 @@ import AppButton from '../../../component/button/AppButton'
 const planTypeData = [
     {
         id: "1",
-        plantype: "Daily",
+        plantype: "Today",
         planPeriod: "1 day",
         offer: "",
         price: "140",
+        icon: Icons.TODAY
     },
     {
         id: "2",
@@ -24,6 +25,7 @@ const planTypeData = [
         planPeriod: "7 days",
         offer: "save 5%",
         price: "931",
+        icon: Icons.WEEKLY
     },
     {
         id: "3",
@@ -31,6 +33,7 @@ const planTypeData = [
         planPeriod: "30 days",
         offer: "save 12%",
         price: "3696",
+        icon: Icons.MONTHLY
     },
 ];
 
@@ -38,12 +41,14 @@ const deliverModeData = [
     {
         id: "1",
         title: "Home / PG delivery",
-        subTitle: "Hot tiffin at your door"
+        subTitle: "Hot tiffin at your door",
+        icon: Icons.DELIVERY
     },
     {
         id: "2",
         title: "Self pickup",
-        subTitle: "Collect from Rajeev Nagar, near Allen Coaching"
+        subTitle: "Collect from Rajeev Nagar, near Allen Coaching",
+        icon: Icons.SELF_PICKUP
     },
 
 ];
@@ -74,7 +79,7 @@ const foodPreference = [
 
 ]
 
-const SubscriptionScreen = ({navigation}:any) => {
+const SubscriptionScreen = ({ navigation }: any) => {
     const [selectedPlan, setSelectedPlan] = useState('Monthly')
     const [selectedMeal, setSelectedMeal] = useState('Both')
     const [preferenceType, setPreferenceType] = useState("Veg")
@@ -82,7 +87,7 @@ const SubscriptionScreen = ({navigation}:any) => {
     return (
         <View style={CommonStyle.appBackground}>
             <SafeAreaFile>
-                <View style={CommonStyle.appBorderSpacing}  >
+                <View style={CommonStyle.appBorderSpacing}>
                     <AppHeader title='Choose Your Plan' SubTitle='Annupurma Kitchen' />
                     <ScrollView showsVerticalScrollIndicator={false}>
                         <ViewAllComponent lable='Plan type' ContaineStyle={styles.viewAllContainerStyle} />
@@ -92,7 +97,7 @@ const SubscriptionScreen = ({navigation}:any) => {
                                     activeOpacity={0.7}
                                     onPress={() => setSelectedPlan(item.plantype)} key={item.id}>
                                     <View style={[CommonStyle.flexStyle, { gap: 10 }]}>
-                                        <Image source={Icons.SEARCH} style={[styles.radioImage]} resizeMode='contain' />
+                                        <Image source={item.icon} style={[styles.radioImage]} resizeMode='contain' />
                                         <View>
                                             <Text style={styles.titleTxtStyle}>{item.plantype}</Text>
                                             <Text style={styles.subTitleStyle}>{item.planPeriod}{'   '}{item.offer}</Text>
@@ -131,7 +136,7 @@ const SubscriptionScreen = ({navigation}:any) => {
                             deliverModeData.map((item) => (
                                 <TouchableOpacity style={[styles.planContainer, selectedDeliveryMode == item.id ? styles.selectedPlanContainer : undefined]} activeOpacity={0.7} onPress={() => setSelectedDeliveryMode(item.id)} key={item.id}>
                                     <View style={[CommonStyle.flexStyle, { gap: 10 }]}>
-                                        <Image source={Icons.SEARCH} style={[styles.radioImage]} resizeMode='contain' />
+                                        <Image source={item.icon} style={[styles.radioImage]} resizeMode='contain' />
                                         <View>
                                             <Text style={styles.titleTxtStyle}>{item.title}</Text>
                                             <Text style={styles.subTitleStyle}>{item.subTitle}</Text>
@@ -162,13 +167,15 @@ const SubscriptionScreen = ({navigation}:any) => {
                                 <Text style={styles.detailsTxtStyle}>Delivery charge</Text>
                                 <Text style={styles.detailsTxtStyle}>{selectedDeliveryMode == "2" ? "Free" : "20"}</Text>
                             </View>
-                            <View style={[CommonStyle.flexStyle, { justifyContent: "space-between", borderTopColor: Colors.border, borderTopWidth: 1 , paddingVertical:10 }]}>
+                            <View style={[CommonStyle.flexStyle, { justifyContent: "space-between", borderTopColor: Colors.border, borderTopWidth: 1, paddingVertical: 10 }]}>
                                 <Text style={styles.payableTxtStyle}>Total Payable</Text>
-                                <Text style={[styles.payableTxtStyle,{color:Colors.primary}]}>₹ 3696</Text>
+                                <Text style={[styles.payableTxtStyle, { color: Colors.primary }]}>₹ 3696</Text>
                             </View>
                         </View>
                     </ScrollView>
-                    <AppButton lable='Confirm SubScription ₹3696' onPress={()=>navigation.navigate('SubscriptionConfirmedScreen')} />
+                    <AppButton lable='Confirm SubScription ₹3696' 
+                    buttonStyle={{marginBottom:10}}
+                    onPress={() => navigation.navigate('SubscriptionConfirmedScreen')} />
                 </View>
             </SafeAreaFile>
         </View >
@@ -182,19 +189,22 @@ const styles = StyleSheet.create({
         ...CommonStyle.flexStyle,
         backgroundColor: Colors.white,
         borderRadius: 15,
-        ...CommonStyle.shadowStyle,
+        // ...CommonStyle.shadowStyle,
         paddingHorizontal: 15,
         paddingVertical: 10,
         width: "100%",
         justifyContent: "space-between",
-        marginVertical: 5
+        marginVertical: 5,
+        borderWidth:1,
+        borderColor:Colors.border
     },
     selectedPlanContainer: {
         borderWidth: 1,
         borderColor: Colors.primary
     },
     radioImage: {
-        height: 15, width: 15
+        height: 25, width: 25,
+        tintColor: Colors.textSecondary
     },
     titleTxtStyle: {
         fontSize: 14,
@@ -237,18 +247,20 @@ const styles = StyleSheet.create({
     overallContainer: {
         backgroundColor: Colors.white,
         borderRadius: 15,
-        ...CommonStyle.shadowStyle,
+        // ...CommonStyle.shadowStyle,
         padding: 15,
         gap: 10,
-        marginVertical:15
+        marginVertical: 15,
+        borderWidth:1,
+        borderColor:Colors.border
     },
     detailsTxtStyle: {
         fontSize: 14,
         fontFamily: Fonts.Poppins.Regular,
         color: Colors.textSecondary
     },
-    payableTxtStyle:{
-         fontSize: 15,
+    payableTxtStyle: {
+        fontSize: 15,
         fontFamily: Fonts.Poppins.SemiBold,
         color: Colors.textPrimary
     }

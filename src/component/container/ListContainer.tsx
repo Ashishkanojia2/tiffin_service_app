@@ -46,7 +46,7 @@ const ListContainer = ({
                         <AppButton
                             lable='Rate'
                             buttonStyle={styles.rateBtn}
-                            textStyle={{ color: Colors.textPrimary, fontFamily: Fonts.Inter.Regular }}
+                            textStyle={{ color: Colors.textPrimary, fontFamily: Fonts.Inter.Regular , fontSize:14}}
                             onPress={RatePress}
                         />
                 }
@@ -60,7 +60,19 @@ export default ListContainer
 const styles = StyleSheet.create({
     rootContainer: {
         backgroundColor: Colors.white,
-        ...CommonStyle.shadowStyle,
+        // ...CommonStyle.shadowStyle,
+        // shadowColor: '#000',
+        // shadowOffset: {
+        //     width: 0,
+        //     height: 1,
+        // },
+        // shadowOpacity: 0.1,
+        // shadowRadius: 4,
+
+        // // Shadow - Android
+        // elevation: 4,
+        borderWidth: 1,
+        borderColor: Colors.border,
         borderRadius: 15,
         paddingVertical: 10,
         paddingHorizontal: 10,
@@ -88,10 +100,10 @@ const styles = StyleSheet.create({
         fontFamily: Fonts.Poppins.Medium
     },
     rateBtn: {
-        width: 60,
-        height: 27,
+        width: 50,
+        height: 25,
         backgroundColor: Colors.background,
-        ...CommonStyle.shadowStyle,
+        // ...CommonStyle.shadowStyle,
         borderWidth: 1,
         borderColor: Colors.border
     }

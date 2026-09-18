@@ -1,10 +1,4 @@
-import {
-  Dimensions,
-  ImageBackground,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import { Dimensions, ImageBackground, StyleSheet, Text, View } from 'react-native';
 import React, { useState } from 'react';
 import { CommonStyle } from '../../helper/uiComponent/CommonStyle';
 import SafeAreaFile from '../../helper/uiComponent/SafeAreaFile';
@@ -108,7 +102,7 @@ const reviewData: ReviewDataPropType[] = [
 const MealDetailsScreen = ({ navigation }: any) => {
   const [segementValue, setSegementValue] = useState('thisWeekMenu');
   return (
-    <SafeAreaFile style={[CommonStyle.appBackground]}>
+    <SafeAreaFile style={[CommonStyle.appBackground]} edges={['top', "bottom"]}>
       <ImageBackground
         source={Images.KITCHEN_1}
         style={styles.imageStyle}
@@ -170,7 +164,7 @@ const MealDetailsScreen = ({ navigation }: any) => {
       <View
         style={[
           CommonStyle.flexStyle,
-          { paddingVertical: 10, paddingHorizontal: 15, backgroundColor: Colors.white, position: "absolute", bottom: 0 },
+          { paddingVertical: 10, paddingHorizontal: 15, backgroundColor: Colors.white, },
         ]}
       >
         <View style={{ paddingHorizontal: 10 }}>

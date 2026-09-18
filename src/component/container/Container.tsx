@@ -40,16 +40,6 @@ export default Container
 
 const styles = StyleSheet.create({
     container: {
-        shadowColor: '#000',
-        shadowOffset: {
-            width: 0,
-            height: 1,
-        },
-        shadowOpacity: 0.1,
-        shadowRadius: 4,
-
-        // Shadow - Android
-        elevation: 2,
         ...CommonStyle.flexStyle,
         gap: 3,
         backgroundColor: Colors.background,

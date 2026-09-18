@@ -59,7 +59,7 @@ const PlanTab = ({ navigation }: any) => {
                                 <Text style={styles.pendingTxtStyle}>Pending</Text>
                             </View>
                             <View style={[CommonStyle.flexStyle, { flex: 1, gap: 10, paddingVertical: 10 }]}>
-                                <AppButton lable='Skip today' buttonStyle={styles.skipButtonStyle} textStyle={[styles.buttonTextStyle,{color:Colors.textPrimary}]} />
+                                <AppButton lable='Skip today' buttonStyle={styles.skipButtonStyle} textStyle={[styles.buttonTextStyle, { color: Colors.textPrimary }]} />
                                 <AppButton lable='Pause plan' buttonStyle={styles.pauseButtonStyle} textStyle={styles.buttonTextStyle} />
                             </View>
                         </View>
@@ -77,8 +77,22 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.white,
         paddingHorizontal: 15,
         paddingVertical: 10,
-        ...CommonStyle.shadowStyle,
-        borderRadius: 15
+        // ...CommonStyle.shadowStyle,
+
+        // shadowColor: '#323232',
+        // shadowOffset: {
+        //     width: 0,
+        //     height: 1,
+        // },
+        // shadowOpacity: 0.1,
+        // shadowRadius: 4,
+
+        // // Shadow - Android
+        // elevation: 2,
+        borderRadius: 15,
+
+        borderWidth: 1,
+        borderColor: Colors.border,
 
     },
     ratedTxtStyle: {

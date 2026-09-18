@@ -148,7 +148,7 @@ const BottomTabNavigator = () => {
                                     width: 24,
                                     height: 24,
                                 }}
-                                tintColor={focused ? Colors.primary : Colors.black}
+                                tintColor={focused ? Colors.primary : Colors.textSecondary}
                                 resizeMode='contain'
                             />
                         ),

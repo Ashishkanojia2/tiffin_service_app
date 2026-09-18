@@ -64,8 +64,6 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     justifyContent: "center",
     alignItems: "center",
-    // paddingHorizontal: 15,
-    // height:45,
     paddingVertical:10
   },
   selectedOption: {
@@ -75,7 +73,7 @@ const styles = StyleSheet.create({
   optionTxtStyle: {
     fontSize: 14,
     fontFamily: Fonts.Poppins.Medium,
-    color: Colors.primary
+    color: Colors.primary,
   },
   labelTxt: {
     fontSize: 16,

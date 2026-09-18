@@ -89,7 +89,7 @@ const HomeTab = ({ navigation }: any) => {
 
                                 } />
                             <ScrollView horizontal
-                                contentContainerStyle={{ gap: 7, marginLeft: 10, paddingVertical: 5 }}
+                                contentContainerStyle={{ gap: 7, paddingVertical: 5 }}
                                 showsHorizontalScrollIndicator={false}
                             >
                                 {
@@ -140,6 +140,5 @@ const styles = StyleSheet.create({
     filterSectionContainer: {
         ...CommonStyle.flexStyle,
         height: "7%",
-        // backgroundColor: "pink"
     }
 })

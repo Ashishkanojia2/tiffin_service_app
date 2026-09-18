@@ -28,4 +28,10 @@ export const Icons = {
   RISE: require('./rise.png'),
   EDIT: require('./edit.png'),
   CLOSE: require('./close.png'),
+
+  DELIVERY: require('./delivery.png'),
+  SELF_PICKUP: require('./selfPickup.png'),
+  MONTHLY: require('./monthly.png'),
+  WEEKLY: require('./weekly.png'),
+  TODAY: require('./today.png'),
 };
