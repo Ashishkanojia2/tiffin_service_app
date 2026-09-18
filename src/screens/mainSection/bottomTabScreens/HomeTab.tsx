@@ -11,7 +11,6 @@ import Container from '../../../component/container/Container'
 import IconContainer from '../../../component/other/IconContainer'
 import ViewAllComponent from '../../../component/other/ViewAllComponent'
 import MealContainer from '../../../component/container/MealContainer'
-const { height } = Dimensions.get("window")
 
 const FilterOption = [
     {
@@ -37,7 +36,6 @@ const FilterOption = [
 ]
 const HomeTab = ({ navigation }: any) => {
     const [selectedFilter, setSelectFilter] = useState<string[]>([]);
-
     const filterHandler = (label: string) => {
         if (!label) return;
 
@@ -52,8 +50,7 @@ const HomeTab = ({ navigation }: any) => {
     return (
         <View style={CommonStyle.appBackground}>
             <SafeAreaFile>
-                <View style={styles.topContainer}>
-                </View>
+                <View style={styles.topContainer} />
                 <View style={CommonStyle.appBorderSpacing}>
                     <AppHeader
                         showLeftElement={false}
@@ -79,38 +76,39 @@ const HomeTab = ({ navigation }: any) => {
                             </TouchableOpacity>
                         }
                         rightElement={
-                            <IconContainer source={Icons.BELL} style={{ height: 20, width: 20 }} onPress={() => navigation.navigate("NotificationScreen")} />
-                        }
-                    />
-                    <SearchField
-                        inputWrapperStyle={{ backgroundColor: Colors.background, marginTop: 10 }}
-                    />
+                            <IconContainer source={Icons.BELL} style={{ height: 20, width: 20 }} onPress={() => navigation.navigate("NotificationScreen")} />} />
 
-                    <View style={styles.filterSectionContainer}>
-                        <Container
-                            lable='Filter'
-                            leftElement={
-                                <Image source={Icons.FILTER} style={{ height: 15, width: 15 }} />
+                        <SearchField
+                            inputWrapperStyle={{ backgroundColor: Colors.background, marginTop: 10 }}
+                        />
+                        <View style={styles.filterSectionContainer}>
+                            <Container
+                                lable='Filter'
+                                leftElement={
+                                    <Image source={Icons.FILTER} style={{ height: 15, width: 15 }} />
 
-                            } />
-                        <ScrollView horizontal contentContainerStyle={{ gap: 7, marginLeft: 10 }} showsHorizontalScrollIndicator={false}>
-                            {
-                                FilterOption.map((item) => (
-                                    <Container key={item.id} lable={item.option}
-                                        onPress={() => filterHandler(item.option)}
-                                        containerStyle={{
-                                            backgroundColor: selectedFilter.find((i) => i == item.option) ? Colors.primary : Colors.background
-                                        }}
-                                        lableStyle={{
-                                            color: selectedFilter.find((i) => i == item.option) ? Colors.white : Colors.textSecondary
-                                        }}
-                                    />
-                                ))
-                            }
-                        </ScrollView>
-                    </View>
+                                } />
+                            <ScrollView horizontal
+                                contentContainerStyle={{ gap: 7, marginLeft: 10, paddingVertical: 5 }}
+                                showsHorizontalScrollIndicator={false}
+                            >
+                                {
+                                    FilterOption.map((item) => (
+                                        <Container key={item.id} lable={item.option}
+                                            onPress={() => filterHandler(item.option)}
+                                            containerStyle={{
+                                                backgroundColor: selectedFilter.find((i) => i == item.option) ? Colors.primary : Colors.background
+                                            }}
+                                            lableStyle={{
+                                                color: selectedFilter.find((i) => i == item.option) ? Colors.white : Colors.textSecondary
+                                            }}
+                                        />
+                                    ))
+                                }
+                            </ScrollView>
+                        </View>
 
-                    <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ gap: 10, marginTop: 40 }}>
+                    <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ gap: 10, paddingVertical:10 }}>
                         <ViewAllComponent lable='Tiffin near you' rightTxt='3 kitchens' />
                         <MealContainer onPress={() => navigation.navigate("MealDetailsScreen")} />
                         <MealContainer />
@@ -124,9 +122,7 @@ const HomeTab = ({ navigation }: any) => {
         </View>
     )
 }
-
 export default HomeTab
-
 const styles = StyleSheet.create({
     topContainer: {
         backgroundColor: Colors.white,
@@ -134,7 +130,7 @@ const styles = StyleSheet.create({
         top: 0,
         left: 0,
         right: 0,
-        height: height * 0.28,
+        height: "25%",
     },
     subTitle: {
         fontFamily: Fonts.Inter.Medium,
@@ -143,6 +139,7 @@ const styles = StyleSheet.create({
     },
     filterSectionContainer: {
         ...CommonStyle.flexStyle,
-        marginTop: 10
+        height: "7%",
+        // backgroundColor: "pink"
     }
 })

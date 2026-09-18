@@ -10,7 +10,7 @@ import SearchField from '../../component/input/SearchField'
 import { Icons } from '../../assets/icons'
 const ChooseLocationScreen = ({ navigation }: any) => {
     return (
-        <View style={CommonStyle.appBorderSpacing}>
+        <View style={CommonStyle.appBorderSpacingWithBottom}>
             <AppHeader
                 title='Where do you want tiffin?'
                 SubTitle='PG, coaching or locality'

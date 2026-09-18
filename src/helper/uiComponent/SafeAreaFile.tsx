@@ -1,15 +1,16 @@
-import {  StatusBar } from 'react-native'
+import { StatusBar } from 'react-native'
 import React, { ReactNode } from 'react'
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context'
+import { SafeAreaProvider, SafeAreaView, SafeAreaViewProps } from 'react-native-safe-area-context'
 import { Colors } from '../../theme/Colors'
-type Props = {
+type Props = SafeAreaViewProps & {
     children?: ReactNode;
+    
 };
-const SafeAreaFile = ({ children }: Props) => {
+const SafeAreaFile = ({ children , ...rest}: Props) => {
     return (
-        <SafeAreaProvider>
-            <SafeAreaView style={{ flex: 1, backgroundColor: Colors.background }}>
-                <StatusBar barStyle='dark-content' />
+        <SafeAreaProvider >
+            <StatusBar barStyle='dark-content' />
+            <SafeAreaView style={{ flex: 1, backgroundColor: Colors.background }} {...rest} >
                 {children}
             </SafeAreaView>
         </SafeAreaProvider>

@@ -14,7 +14,7 @@ const MealContainer = ({
 }: MealContainerProps) => {
     return (
         <TouchableOpacity style={styles.rootContainer} activeOpacity={0.8} onPress={onPress}>
-            <Image source={Images.KITCHEN_1} style={{ width: '100%', height: 150 }} />
+            <Image source={Images.KITCHEN_1} style={{ width: '100%', height: 150, borderTopRightRadius:15 , borderTopLeftRadius:15 }} />
             <View style={{ padding: 10, gap: 10 }}>
                 <View style={[CommonStyle.flexStyle, { justifyContent: "space-between" }]}>
                     <Text style={styles.titleStyle}>MealContainer</Text>
@@ -49,7 +49,6 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.white,
         borderRadius: 15,
         ...CommonStyle.shadowStyle,
-        overflow: "hidden"
     },
     titleStyle: {
         fontSize: 16,

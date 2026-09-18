@@ -5,10 +5,6 @@ import { CommonStyle } from '../../helper/uiComponent/CommonStyle'
 import { Fonts } from '../../assets/fonts'
 import { Icons } from '../../assets/icons'
 
-export type ReviewContainerType = {
-    data: ReviewDataPropType,
-
-}
 export type ReviewDataPropType = {
     id?: string
     name?: string,
@@ -16,6 +12,9 @@ export type ReviewDataPropType = {
     message?: string,
     date: string
 
+}
+export type ReviewContainerType = {
+    data: ReviewDataPropType,
 }
 
 const ReviewContainer = ({
@@ -29,7 +28,7 @@ const ReviewContainer = ({
                         <Text style={styles.titleTxtStyle}>{data.name}</Text>
                         <Text style={styles.dateStyle}>{data.date}</Text>
                     </View>
-                    <View style={[CommonStyle.flexStyle,{marginVertical:5 , gap:2}]}> 
+                    <View style={[CommonStyle.flexStyle, { marginVertical: 5, gap: 2 }]}>
                         {Array.from({ length: 5 }).map((_, index) => {
                             const rating = index + 1;
                             return (
@@ -45,7 +44,7 @@ const ReviewContainer = ({
                             );
                         })}
                     </View>
-                        <Text style={styles.subTitle}>{data.message}</Text>
+                    <Text style={styles.subTitle}>{data.message}</Text>
                 </View>
             </View>
         </View>

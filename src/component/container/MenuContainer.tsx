@@ -6,6 +6,7 @@ import { Fonts } from '../../assets/fonts'
 import AppButton from '../button/AppButton'
 import IconContainer from '../other/IconContainer'
 import { Icons } from '../../assets/icons'
+import Tag from '../tag/Tag'
 
 export type MenuContainerPropsType = {
     data: MenuDataPropsType,
@@ -36,17 +37,14 @@ const MenuContainer = ({
                 <View style={{ flex: 1 }}>
                     <View style={[CommonStyle.flexStyle, { gap: isEditable ? 10 : 0 }]}>
                         <Text style={[styles.titleTxtStyle, { flex: isEditable ? 0 : 1 }]}>{data.KitchenName}</Text>
-                        <View style={[styles.dotContaner, { backgroundColor: "#def9e5", }]}>
-                            <View style={styles.dot} />
-                            <Text style={styles.mealTypeTxtStyle}>Veg</Text>
-                        </View>
+                        <Tag tagCategory='MEAL' MealType='Veg' />
                     </View>
                     <Text style={styles.subTitle}>{data.foodItem}</Text>
                     <Text style={styles.amtStyle}>₹ {data.amount}</Text>
                 </View>
                 {
-                    isEditable && 
-                <IconContainer source={Icons.EDIT} style={{ height: 20, width: 20 }} onPress={onEditPress} />
+                    isEditable &&
+                    <IconContainer source={Icons.EDIT} style={{ height: 20, width: 20 }} onPress={onEditPress} />
                 }
 
             </View>

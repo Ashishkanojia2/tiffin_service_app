@@ -2,6 +2,7 @@ import { StyleProp, StyleSheet, Text, TextStyle, TouchableOpacity, View, ViewSty
 import React, { useState } from 'react'
 import { Colors } from '../../theme/Colors'
 import { Fonts } from '../../assets/fonts'
+import { CommonStyle } from '../../helper/uiComponent/CommonStyle'
 export type SegementDataPropType = {
   id: string
   lable: string
@@ -21,7 +22,7 @@ const Segement = ({ segementData, selectedValue, containerStyle, optionContainer
   const [selectedUser, setSelectedUser] = useState(segementData?.[0]?.id || "")
   return (
     <View>
-        {lable && <Text style={[styles.labelTxt, labelStyle]}>{lable}</Text>}
+      {lable && <Text style={[styles.labelTxt, labelStyle]}>{lable}</Text>}
       <View style={[styles.userContainer, containerStyle]}>
         {
           segementData?.map((item) => {
@@ -33,7 +34,6 @@ const Segement = ({ segementData, selectedValue, containerStyle, optionContainer
                     , optionContainerStyle]}
                 onPress={() => {
                   selectedValue(item?.id || "")
-                  // selectedValue(item?.lable || "")
                   setSelectedUser(item.id)
                 }}>
                 <Text style={[styles.optionTxtStyle, {
@@ -64,24 +64,13 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     justifyContent: "center",
     alignItems: "center",
-    paddingHorizontal: 15,
-    paddingVertical: 10,
+    // paddingHorizontal: 15,
+    // height:45,
+    paddingVertical:10
   },
-
   selectedOption: {
     backgroundColor: Colors.white,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-
-    // Shadow - Android
-    elevation: 2,
-  },
-  unSelectedOption: {
+    ...CommonStyle.shadowStyle
   },
   optionTxtStyle: {
     fontSize: 14,

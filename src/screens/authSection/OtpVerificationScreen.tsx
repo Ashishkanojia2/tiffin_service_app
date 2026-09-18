@@ -7,6 +7,7 @@ import { CommonStyle } from '../../helper/uiComponent/CommonStyle'
 import AppButton from '../../component/button/AppButton'
 import InputField from '../../component/input/InputField'
 import Storage from '../../utils/Storage'
+import KeyboardWrapper from '../../utils/KeyboardWrapper'
 const OtpVerificationScreen = ({ navigation }: any) => {
     const OTP_LENGTH = 6
     const RESEND_TIME = 50
@@ -80,71 +81,70 @@ const OtpVerificationScreen = ({ navigation }: any) => {
         } else if (userType === 'seller') {
             navigation.navigate('KitchenRegisterScreen')
         }
-        // navigation.navigate('SubscriptionScreen')
-        // const otpValue = otp.join('')
-
-        // if (otpValue.length !== OTP_LENGTH) {
-        //     // Show validation message
-        //     console.log('Please enter complete OTP')
-        //     return
-        // }
-        // console.log('OTP:', otpValue)
     }
-
     return (
-        <View style={CommonStyle.appBorderSpacing}>
-            <ScrollView showsVerticalScrollIndicator={false}>
-                <AppLogo size={100} />
-                <Text style={styles.titleStyle}>Verify your number</Text>
-                <Text style={styles.subTitle}>We sent a 6-digit code to +91 1234567890</Text>
-                <View style={styles.otpContainer}>
-                    {otp.map((value, index) => (
-                        <InputField
-                            key={index}
-                            ref={(ref: TextInput | null) => {
-                                inputRefs
-                                    .current[index] = ref
-                            }}
-                            inputContainerStyle={{
-                                width: 58,
-                                height: 54,
+        <View style={CommonStyle.appBorderSpacingWithBottom}>
+            <KeyboardWrapper>
+                <ScrollView showsVerticalScrollIndicator={false}>
+                    <AppLogo size={100} />
+                    <Text style={styles.titleStyle}>Verify your number</Text>
+                    <Text style={styles.subTitle}>We sent a 6-digit code to +91 1234567890</Text>
+                    <View style={styles.otpContainer}>
+                        {otp.map((value, index) => (
+                            <InputField
+                                key={index}
+                                ref={(ref: TextInput | null) => {
+                                    inputRefs
+                                        .current[index] = ref
+                                }}
+                                inputContainerStyle={{
+                                    width: 58,
+                                    height: 54,
+                                }}
+                                style={{
+                                    textAlign: 'center',
+                                    fontSize: 20,
+                                    color: Colors.textSecondary
+                                }}
 
-                            }}
-                            style={{
-                                textAlign: 'center',
-                            }}
+                                maxLength={1}
+                                keyboardType="number-pad"
+                                value={value}
+                                onChangeText={(text) => {
+                                    handleOtpChange(text, index)
+                                }}
+                                onKeyPress={(e) => {
+                                    handleKeyPress(e, index)
+                                }}
+                            />
+                        ))}
 
-                            maxLength={1}
-                            keyboardType="number-pad"
-                            value={value}
-                            onChangeText={(text) => {
-                                handleOtpChange(text, index)
-                            }}
-                            onKeyPress={(e) => {
-                                handleKeyPress(e, index)
-                            }}
-                        />
-                    ))}
+                    </View>
+                    {
+                        errorMsg !== '' ?
+                            <View style={styles.labelStyle}>
+                                <Text style={[styles.labelTxt, { color: Colors.error }]}>{errorMsg}dedededed</Text>
+                            </View>
+                            : <View />
+                    }
+                    <View style={[CommonStyle.flexStyle, { justifyContent: "center", marginTop: 15 }]}>
+                        <Text style={styles.bottomTxt}>Didn't get the OTP ?</Text>
+                        <TouchableOpacity activeOpacity={0.8} onPress={handleResendOtp} disabled={timer != 0}>
+                            {
+                                timer == 0 ?
+                                    <Text style={[styles.bottomTxt, { color: Colors.primary }]}>Resend</Text>
+                                    :
+                                    <Text style={styles.timmerTxt}>
+                                      Resend SMS in {timer.toString().padStart(2, '0')}s
+                                    </Text>
 
-                </View>
-                {
-                    errorMsg !== '' ?
-                        <View style={styles.labelStyle}>
-                            <Text style={[styles.labelTxt, { color: Colors.error }]}>{errorMsg}dedededed</Text>
-                        </View>
-                        : <View />
-                }
-                <View style={[CommonStyle.flexStyle, { justifyContent: "space-between", marginTop: 15 }]}>
-                    <TouchableOpacity activeOpacity={0.8} onPress={handleResendOtp} disabled={timer != 0}>
-                        <Text style={[styles.bottomTxt, { color: timer == 0 ? Colors.primary : Colors.textSecondary }]}>Didn't Get Verification Code?</Text>
-                    </TouchableOpacity>
-                    <Text style={styles.timmerTxt}>
-                        00:{timer.toString().padStart(2, '0')}
-                    </Text>
-                </View>
-            </ScrollView>
-            <AppButton lable='Verify & Continue' onPress={handleContinue} />
-            <Text style={styles.policyMsg}>By continuing you agree to our Terms & Privacy Policy</Text>
+                            }
+                        </TouchableOpacity>
+                    </View>
+                </ScrollView>
+                <AppButton lable='Verify & Continue' onPress={handleContinue} />
+                <Text style={styles.policyMsg}>By continuing you agree to our Terms & Privacy Policy</Text>
+            </KeyboardWrapper>
         </View>
     )
 }
@@ -178,7 +178,9 @@ const styles = StyleSheet.create({
     otpContainer: {
         flexDirection: 'row',
         gap: 5,
-        marginTop: 50
+        marginTop: 50,
+        // alignSelf:"center",
+        justifyContent: "space-between"
     },
     labelTxt: {
         fontSize: 13,
@@ -193,12 +195,10 @@ const styles = StyleSheet.create({
         fontFamily: Fonts.Inter.Regular,
         color: Colors.textSecondary,
         fontSize: 15,
-        // marginTop: 28
     },
     bottomTxt: {
         fontFamily: Fonts.Inter.Regular,
         fontSize: 14,
-        // marginTop: 10,
-        // marginBottom: 28
+        color: Colors.textSecondary
     },
 })

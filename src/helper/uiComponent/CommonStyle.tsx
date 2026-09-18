@@ -3,16 +3,18 @@ import { Colors } from "../../theme/Colors";
 
 export const CommonStyle = StyleSheet.create({
     appBorderSpacing: {
-        // paddingHorizontal:12,
-        marginHorizontal: 12,
-        // backgroundColor: Colors.background,
         flex: 1,
-        // backgroundColor:"green"
+        marginHorizontal: 12,
+    },
+    appBorderSpacingWithBottom: {
+        flex: 1,
+        marginHorizontal: 12,
+        paddingBottom:10,
     },
     flexStyle: {
         flexDirection: "row",
         alignItems: "center",
-        gap:5
+        gap: 5
     },
     appBackground: {
         flex: 1,
@@ -28,6 +30,6 @@ export const CommonStyle = StyleSheet.create({
         shadowRadius: 4,
 
         // Shadow - Android
-        elevation: 2,
+        elevation: 4,
     }
 })

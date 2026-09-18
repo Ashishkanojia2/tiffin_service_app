@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import React, { useState } from 'react'
 import AppLogo from '../../component/other/AppLogo'
 import { Fonts } from '../../assets/fonts'
@@ -8,6 +8,7 @@ import MobileInputField from '../../component/input/MobileInputField'
 import AppButton from '../../component/button/AppButton'
 import Segement from '../../component/segement'
 import Storage from '../../utils/Storage'
+import KeyboardWrapper from '../../utils/KeyboardWrapper'
 
 const loginUser = [
     {
@@ -17,7 +18,8 @@ const loginUser = [
     {
         id: "seller",
         lable: "Login as Seller"
-    }
+    },
+
 ]
 const LoginScreen = ({ navigation }: any) => {
     const [selectedUser, setSelectedUser] = useState("buyer")
@@ -32,16 +34,18 @@ const LoginScreen = ({ navigation }: any) => {
     }
 
     return (
-        <View style={CommonStyle.appBorderSpacing}>
-            <ScrollView showsVerticalScrollIndicator={false}>
-                <AppLogo size={100} />
-                <Text style={styles.titleStyle}>Welcome to TiffinWala</Text>
-                <Text style={styles.subTitle}>Login with your mobile number to continue</Text>
-                <Segement segementData={loginUser} selectedValue={(txt: string) => setSelectedUser(txt)} containerStyle={{ marginTop: 30 }} />
-                <MobileInputField containerStyle={{ marginVertical: 20 }} />
-            </ScrollView>
-            <AppButton lable='Send OTP' onPress={loginHandler} />
-            <Text style={styles.policyMsg}>By continuing you agree to our Terms & Privacy Policy</Text>
+        <View style={CommonStyle.appBorderSpacingWithBottom}>
+            <KeyboardWrapper>
+                <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ flex: 1 }}>
+                    <AppLogo size={100} />
+                    <Text style={styles.titleStyle}>Welcome to TiffinWala</Text>
+                    <Text style={styles.subTitle}>Login with your mobile number to continue</Text>
+                    <Segement segementData={loginUser} selectedValue={(txt: string) => setSelectedUser(txt)} containerStyle={{ marginTop: 30 }} />
+                    <MobileInputField containerStyle={{ marginVertical: 20 }} />
+                </ScrollView>
+                <AppButton lable='Send OTP' onPress={loginHandler} />
+                <Text style={styles.policyMsg}>By continuing you agree to our Terms & Privacy Policy</Text>
+            </KeyboardWrapper>
         </View>
     )
 }

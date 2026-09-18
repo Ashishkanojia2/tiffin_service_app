@@ -8,27 +8,26 @@ import HomeTab from '../screens/mainSection/bottomTabScreens/HomeTab';
 import PlanTab from '../screens/mainSection/bottomTabScreens/PlanTab';
 import OrderTab from '../screens/mainSection/bottomTabScreens/OrderTab';
 import ProfileTab from '../screens/mainSection/bottomTabScreens/ProfileTab';
+import { CommonStyle } from '../helper/uiComponent/CommonStyle';
+import SafeAreaFile from '../helper/uiComponent/SafeAreaFile';
 const Tab = createBottomTabNavigator();
-
 const BottomTabNavigator = () => {
     return (
-        <View style={{ flex: 1, }}>
+        <SafeAreaFile edges={["bottom"]}>
             <Tab.Navigator
                 initialRouteName="HomeTab"
+
                 screenOptions={{
                     headerShown: false,
                     tabBarShowLabel: true,
                     tabBarStyle: {
-                        height: 100,
-                        paddingTop: 5,
-                        borderTopWidth: 0,
+                        height: 70,
+                        borderTopWidth: 1,
                         backgroundColor: Colors.background,
                     },
-
-                    tabBarBackground: () => (
-                        <View style={styles.tabBarBackground} />
-                    ),
                     animation: 'fade',
+
+
                 }}
             >
                 <Tab.Screen
@@ -53,11 +52,13 @@ const BottomTabNavigator = () => {
                                 style={{
                                     width: 24,
                                     height: 24,
+
                                 }}
                                 tintColor={focused ? Colors.primary : Colors.textSecondary}
                                 resizeMode='contain'
                             />
                         ),
+
                         tabBarActiveTintColor: Colors.primary,
                         tabBarInactiveTintColor: Colors.textSecondary,
                     }}
@@ -156,27 +157,20 @@ const BottomTabNavigator = () => {
                     }}
                 />
             </Tab.Navigator>
-        </View>
+        </SafeAreaFile >
     );
 };
 
 export default BottomTabNavigator;
 const styles = StyleSheet.create({
     tabBarBackground: {
-        // flex: 1,
         backgroundColor: Colors.white,
         borderRadius: 20,
-        shadowColor: Colors.black,
-        shadowOffset: {
-            width: 0,
-            height: -2,
-        },
-        shadowOpacity: 0.1,
-        shadowRadius: 5,
-        elevation: 8,
         marginHorizontal: 10,
-        height: 70,
+        // height:70,
+        flex: 1,
         borderWidth: 1,
-        borderColor: Colors.border
+        borderColor: Colors.border,
+        ...CommonStyle.shadowStyle
     },
 })

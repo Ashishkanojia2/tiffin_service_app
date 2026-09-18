@@ -2,6 +2,7 @@ import { Image, StyleProp, StyleSheet, Text, TextInput, TextInputProps, TextStyl
 import React, { forwardRef } from 'react';
 import { Colors } from '../../theme/Colors';
 import { Fonts } from '../../assets/fonts';
+import { CommonStyle } from '../../helper/uiComponent/CommonStyle';
 
 export type InputProps = TextInputProps & {
     inputContainerStyle?: StyleProp<ViewStyle>;
@@ -54,7 +55,7 @@ const InputField = forwardRef<TextInput, InputProps>(
                             multiline && {
                                 minHeight: 100,
                                 textAlignVertical: 'top',
-                                paddingBottom:5
+                                paddingBottom: 5
                             },
                         ]}
                         multiline={multiline}
@@ -79,16 +80,7 @@ export default InputField;
 const styles = StyleSheet.create({
     container: {
         width: '100%',
-        shadowColor: '#000',
-        shadowOffset: {
-            width: 0,
-            height: 1,
-        },
-        shadowOpacity: 0.1,
-        shadowRadius: 4,
-
-        // Shadow - Android
-        elevation: 2,
+        ...CommonStyle.shadowStyle
     },
     inputWrapper: {
         flexDirection: 'row',
@@ -99,8 +91,6 @@ const styles = StyleSheet.create({
         borderColor: Colors.border,
         borderWidth: 1,
         overflow: "hidden",
-        // Shadow - iOS
-
     },
     input: {
         flex: 1,
@@ -109,7 +99,7 @@ const styles = StyleSheet.create({
         color: Colors.black,
         fontSize: 15,
         fontFamily: Fonts.Inter.Regular,
-        paddingHorizontal: 5,
+        paddingHorizontal: 15,
     },
     labelTxt: {
         fontSize: 16,

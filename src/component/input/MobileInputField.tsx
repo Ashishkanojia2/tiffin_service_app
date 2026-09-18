@@ -19,20 +19,13 @@ const MobileInputField = ({ containerStyle, showError, errorMsg }: MobileInputFi
                 <Text style={[styles.labelTxt]}>Mobile number*</Text>
             </View>
 
-            <View style={{ flexDirection: "row", gap: 10, marginBottom: 5,}}>
-                <InputField inputContainerStyle={{ width: 50, borderColor: Colors.border, }}
-                    style={{
-                        backgroundColor: Colors.light_yellow,
-                        borderRadius:18
-                        
-                    }}
-                    inputWrapperStyle={{
-                        borderRadius:18
-                    }}
-                    placeholder='+91'
-                    placeholderTextColor={Colors.textPrimary} editable={false} />
+            <View style={{ flexDirection: "row", gap: 10, marginBottom: 5, }}>
+                <View style={styles.dialCodeContainer}>
+                    <Text style={styles.dialCodeTxt}>+91</Text>
+                </View>
                 <InputField inputContainerStyle={{ flex: 1 }} keyboardType='decimal-pad'
                     inputWrapperStyle={{ borderColor: showError ? Colors.error : Colors.border }}
+                    maxLength={10}
                 />
             </View>
             {
@@ -80,4 +73,18 @@ const styles = StyleSheet.create({
     labelStyle: {
         flexDirection: "row",
     },
+    dialCodeContainer: {
+        alignItems: 'center',
+        borderRadius: 18,
+        backgroundColor: Colors.light_yellow,
+        borderColor: Colors.border,
+        borderWidth: 1,
+        width: 50,
+        justifyContent: "center"
+    },
+    dialCodeTxt: {
+        color: Colors.textSecondary,
+        fontSize: 16,
+        fontFamily: Fonts.Poppins.Medium,
+    }
 })
