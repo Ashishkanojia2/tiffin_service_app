@@ -22,7 +22,7 @@ export const Colors = {
   background: '#FFF8F1',
   surface: '#FFFFFF',
 
-  // Text
+  // Text  
   textPrimary: '#2B2622',
   textSecondary: '#7A7168',
 

@@ -6,9 +6,10 @@ import { Colors } from '../../../theme/Colors';
 import { Fonts } from '../../../assets/fonts';
 import { Icons } from '../../../assets/icons';
 import InputField from '../../../component/input/InputField';
-import Container from '../../../component/container/Container';
 import Segement from '../../../component/segement';
 import AppButton from '../../../component/button/AppButton';
+import KeyboardWrapper from '../../../utils/KeyboardWrapper';
+import MultilineContainer from '../../../component/container/MultilineContainer';
 
 const { height } = Dimensions.get('window');
 const deliveryTypeData = [
@@ -37,90 +38,71 @@ const KitchenRegisterScreen = ({ navigation }: any) => {
     }
     return (
         <View style={CommonStyle.appBorderSpacing}>
-            <AppHeader
-                title="Register your Kitchen"
-                SubTitle="Free listing takes 5 minutes"
-            />
-            <ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1 }}>
-                <View style={styles.imageContainer}>
-                    <Image source={Icons.CAMERA} style={{ height: 35, width: 35 }} resizeMode="contain" />
-                    <Text
-                        style={[
-                            styles.imageContainerText,
-                            { fontFamily: Fonts.Poppins.SemiBold, fontSize: 15 },
-                        ]}
-                    >
-                        Upload kitchen photo
-                    </Text>
-                    <Text style={styles.imageContainerText}>
-                        Bright photo of your food or kitchen work best
-                    </Text>
-                </View>
-                <View style={{ marginTop: 20, gap: 20 }}>
-                    <InputField
-                        label='Kitchen name*'
-                        placeholder='Enter kitchen name'
-                    />
-                    <InputField
-                        label='Owner name*'
-                        placeholder='Enter Owner name'
-                    />
-                    <InputField
-                        label='Area/ Locality*'
-                        placeholder='Enter Area/ Locality'
-                    />
-                    <View style={{ flexDirection: 'row', gap: 10 }}>
-                        <InputField
-                            label='Price per meal(₹)*'
-                            placeholder='Enter Price per meal'
-                            keyboardType='number-pad'
-                            inputContainerStyle={{ flex: 3 }}
-                        />
-                        <Container
-                            containerStyle={[
-                                styles.mealTypeContainer,
-                                {
-                                    backgroundColor: mealType.includes('veg')
-                                        ? Colors.success
-                                        : Colors.hightLighted_green
-                                },
-                            ]}
-                            lable="Veg"
-                            lableStyle={styles.mealTypeText}
-                            onPress={() => handleMealType('veg')}
-                        />
+            <KeyboardWrapper>
+                <AppHeader
+                    title="Register your Kitchen"
+                    SubTitle="Free listing takes 5 minutes"
+                />
+                <ScrollView
+                    showsVerticalScrollIndicator={false}
+                    style={{ flex: 1 }}
+                    keyboardShouldPersistTaps="always"
+                    keyboardDismissMode="interactive"
+                    // automaticallyAdjustKeyboardInsets
+                >
 
-                        <Container
-                            containerStyle={[
-                                styles.mealTypeContainer,
-                                {
-                                    backgroundColor: mealType.includes('non-veg')
-                                        ? Colors.error
-                                        : Colors.hightLighted_red
-                                },
+                    <View style={styles.imageContainer}>
+                        <Image source={Icons.CAMERA} style={{ height: 35, width: 35 }} resizeMode="contain" />
+                        <Text
+                            style={[
+                                styles.imageContainerText,
+                                { fontFamily: Fonts.Poppins.SemiBold, fontSize: 15 },
                             ]}
-                            lable="Non-Veg"
-                            lableStyle={styles.mealTypeText}
-                            onPress={() => handleMealType('non-veg')}
-                        />
+                        >
+                            Upload kitchen photo
+                        </Text>
+                        <Text style={styles.imageContainerText}>
+                            Bright photo of your food or kitchen work best
+                        </Text>
                     </View>
-                    <InputField
-                        label='Meal time*'
-                        placeholder='Enter Meal time'
-                    />
-                    <Segement segementData={deliveryTypeData}
-                        selectedValue={(txt: string) => setDeliveryType(txt)}
-                        containerStyle={{ backgroundColor: Colors.background }}
-                        lable='Delivery option'
-                    />
-                    <InputField
-                        label='About your kitchen*'
-                        placeholder='Enter information about your kitchen'
-                        multiline
-                    />
-                    <AppButton lable="Register Kitchen" onPress={() => { navigation.navigate("MainNavigator") }} />
-                </View>
-            </ScrollView>
+                    <View style={{ marginTop: 20, gap: 20 }}>
+                        <InputField
+                            label='Kitchen name*'
+                            placeholder='Enter kitchen name'
+                        />
+                        <InputField
+                            label='Owner name*'
+                            placeholder='Enter owner name'
+                        />
+                        <InputField
+                            label='Area/ Locality*'
+                            placeholder='Enter area/locality'
+                        />
+                        <View style={{ flexDirection: 'row', gap: 10, alignItems: "flex-end" }}>
+                            <InputField
+                                label='Price per meal(₹)*'
+                                placeholder='Enter Price per meal'
+                                keyboardType='number-pad'
+                                inputContainerStyle={{ flex: 2 }}
+                            />
+                            <AppButton lable='Veg' buttonStyle={{ flex: 1 }} textStyle={{ fontSize: 14 }} buttonType={mealType.includes('veg') ? "FIELD" : "OUTLINE"} onPress={() => handleMealType('veg')} />
+                            <AppButton lable='Non-Veg' buttonStyle={{ flex: 1 }} textStyle={{ fontSize: 14 }} buttonType={mealType.includes('non-veg') ? "FIELD" : "OUTLINE"} onPress={() => handleMealType('non-veg')} />
+                        </View>
+
+                        <InputField
+                            label='Meal time*'
+                            placeholder='Enter Meal time'
+                        />
+                        <Segement segementData={deliveryTypeData}
+                            selectedValue={(txt: string) => setDeliveryType(txt)}
+                            containerStyle={{ backgroundColor: Colors.background, borderWidth: 1, borderColor: Colors.border, height: 50 }}
+                            lable='Delivery option'
+                        />
+                        <MultilineContainer lable='About your kitchen' placeholder='Enter information about your kitchen' />
+                        <AppButton lable="Register Kitchen"  buttonStyle={{marginBottom:15}}onPress={() => { navigation.navigate("MainNavigator") }} />
+                    </View>
+                </ScrollView>
+            </KeyboardWrapper>
         </View >
     );
 };
@@ -136,7 +118,6 @@ const styles = StyleSheet.create({
         height: height / 5,
         width: '100%',
         marginTop: 20,
-        ...CommonStyle.shadowStyle,
         gap: 10,
         borderWidth: 1,
         borderStyle: 'dashed',
@@ -147,7 +128,7 @@ const styles = StyleSheet.create({
         fontSize: 14,
         fontFamily: Fonts.Poppins.Medium,
         color: Colors.textSecondary,
-         textAlign:"center"
+        textAlign: "center"
     },
     mealTypeContainer: {
         flex: 1,

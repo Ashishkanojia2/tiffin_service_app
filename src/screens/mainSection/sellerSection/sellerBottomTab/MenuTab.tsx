@@ -86,9 +86,10 @@ const MenuTab = () => {
               <Text style={styles.subTitle}>Weekly tiffin plan</Text>
             }
           />
-          <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ marginVertical: 10, gap: 10 }}>
+          <ScrollView showsVerticalScrollIndicator={false}
+          style={{flex:1}}
+          contentContainerStyle={{ marginTop: 10, gap: 10, paddingBottom:20}}>
             {
-
               OrderListProps.map(item => (
                 <MenuContainer
                   key={item.id}

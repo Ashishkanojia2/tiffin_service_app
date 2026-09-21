@@ -5,8 +5,9 @@ import { CommonStyle } from '../../helper/uiComponent/CommonStyle'
 import { Images } from '../../assets/images'
 import { Fonts } from '../../assets/fonts'
 import { Icons } from '../../assets/icons'
+import Tag from '../tag/Tag'
 type MealContainerProps = {
-    onPress?: () => void
+    onPress?: () => void,
 }
 const MealContainer = ({
     onPress,
@@ -18,12 +19,7 @@ const MealContainer = ({
             <View style={{ padding: 10, gap: 10 }}>
                 <View style={[CommonStyle.flexStyle, { justifyContent: "space-between" }]}>
                     <Text style={styles.titleStyle}>MealContainer</Text>
-                    <View style={[styles.dotContaner, {
-                        backgroundColor: "#def9e5"
-                    }]}>
-                        <View style={styles.dot} />
-                        <Text style={styles.mealTypeTxtStyle}>Veg</Text>
-                    </View>
+                    <Tag tagCategory='MEAL' MealType='Veg'/>
                 </View>
                 <Text style={styles.locationTxtStyle}>MealContainer</Text>
                 <Text style={styles.menuTxt}>Today: Aloo Gobhi, Dal, Rice, 4 Roti</Text>

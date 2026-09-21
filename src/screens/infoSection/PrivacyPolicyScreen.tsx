@@ -209,7 +209,6 @@ const PrivacyPolicyScreen = () => {
           </ScrollView>
         </View>
       </SafeAreaFile>
-      <Text>PrivacyPolicyScreen</Text>
     </View>
   )
 }

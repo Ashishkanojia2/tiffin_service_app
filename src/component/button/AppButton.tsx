@@ -57,17 +57,7 @@ const styles = StyleSheet.create({
     outlineButton: {
         borderWidth: 2,
         borderColor: Colors.border,
-        shadowColor: '#000',
-        shadowOffset: {
-            width: 0,
-            height: 1,
-        },
-        shadowOpacity: 0.1,
-        shadowRadius: 4,
-
-        // Shadow - Android
-        elevation: 2,
-
+        backgroundColor:Colors.background
     },
     txtStyle: {
         fontFamily: Fonts.Poppins.SemiBold,

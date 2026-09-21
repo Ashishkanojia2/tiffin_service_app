@@ -13,6 +13,8 @@ import ReviewScreen from '../screens/mainSection/sellerSection/ReviewScreen'
 import HelpAndSupportScreen from '../screens/infoSection/HelpAndSupportScreen'
 import TermsAndConditionsScreen from '../screens/infoSection/TermsAndConditionsScreen'
 import PrivacyPolicyScreen from '../screens/infoSection/PrivacyPolicyScreen'
+import EditProfileScreen from '../screens/mainSection/EditProfileScreen'
+import EditMenuScreen from '../screens/mainSection/sellerSection/EditMenuScreen'
 
 const Stack = createNativeStackNavigator()
 
@@ -58,6 +60,8 @@ const MainNavigator = () => {
             <Stack.Screen name="HelpAndSupportScreen" component={HelpAndSupportScreen} />
             <Stack.Screen name="TermsAndConditionsScreen" component={TermsAndConditionsScreen} />
             <Stack.Screen name="PrivacyPolicyScreen" component={PrivacyPolicyScreen} />
+            <Stack.Screen name="EditProfileScreen" component={EditProfileScreen} />
+            <Stack.Screen name="EditMenuScreen" component={EditMenuScreen} />
 
         </Stack.Navigator>
     )

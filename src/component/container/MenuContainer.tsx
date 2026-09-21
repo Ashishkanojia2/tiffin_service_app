@@ -3,7 +3,6 @@ import React from 'react'
 import { Colors } from '../../theme/Colors'
 import { CommonStyle } from '../../helper/uiComponent/CommonStyle'
 import { Fonts } from '../../assets/fonts'
-import AppButton from '../button/AppButton'
 import IconContainer from '../other/IconContainer'
 import { Icons } from '../../assets/icons'
 import Tag from '../tag/Tag'
@@ -24,7 +23,6 @@ export type MenuDataPropsType = {
     onPress?: () => void,
     image?: ImageSourcePropType
 }
-
 const MenuContainer = ({
     data,
     isEditable = false,
@@ -42,13 +40,11 @@ const MenuContainer = ({
                     <Text style={styles.subTitle}>{data.foodItem}</Text>
                     <Text style={styles.amtStyle}>₹ {data.amount}</Text>
                 </View>
+            </View>
                 {
                     isEditable &&
                     <IconContainer source={Icons.EDIT} style={{ height: 20, width: 20 }} onPress={onEditPress} />
                 }
-
-            </View>
-
         </TouchableOpacity>
     )
 }
@@ -58,17 +54,21 @@ export default MenuContainer
 const styles = StyleSheet.create({
     rootContainer: {
         backgroundColor: Colors.white,
-        ...CommonStyle.shadowStyle,
+        // ...CommonStyle.shadowStyle,
         borderRadius: 15,
         paddingVertical: 10,
         paddingHorizontal: 10,
         ...CommonStyle.flexStyle,
         justifyContent: "space-between",
+        borderWidth:1,
+        borderColor:Colors.border
     },
     amtStyle: {
         fontSize: 16,
         color: Colors.primary,
-        fontFamily: Fonts.Poppins.SemiBold
+        fontFamily: Fonts.Poppins.SemiBold,
+        includeFontPadding:false
+        
     },
     ratedTxtStyle: {
         fontSize: 14,

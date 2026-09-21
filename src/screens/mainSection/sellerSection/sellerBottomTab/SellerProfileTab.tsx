@@ -9,7 +9,7 @@ import AppHeader from '../../../../component/header/AppHeader'
 import AppButton from '../../../../component/button/AppButton'
 import MealContainer from '../../../../component/container/MealContainer'
 import LogoutModal from '../../../../component/modal/LogoutModal'
-
+import ProfileContainer from '../../../../component/container/ProfileContainer'
 
 type ProfileTabOptions = {
   id: string,
@@ -23,7 +23,7 @@ type ProfileTabOptions = {
 const ProfileTabOptions: ProfileTabOptions[] = [
   {
     id: "1",
-    option: "Edit menu",
+    option: "Add / Edit menu",
     icon: Icons.EDIT,
     navigateTo: "EditMenuScreen",
   },
@@ -48,8 +48,24 @@ const ProfileTabOptions: ProfileTabOptions[] = [
     navigateTo: "",
     showToggle: true
   },
+  {
+    id: "5",
+    option: "Help & Support",
+    icon: Icons.HELP_SUPPORT,
+    navigateTo: "HelpAndSupportScreen"
+  }, {
+    id: "6",
+    option: "Term & condition",
+    icon: Icons.SHIELD,
+    navigateTo: "TermsAndConditionsScreen"
+  },
+  {
+    id: "7",
+    option: "Privacy policy",
+    icon: Icons.SHIELD,
+    navigateTo: "PrivacyPolicyScreen"
+  },
 ];
-
 
 const SellerProfileTab = ({ navigation }: any) => {
   const [isNotificationEnable, setIsNotificationEnable] = useState(false)
@@ -65,7 +81,7 @@ const SellerProfileTab = ({ navigation }: any) => {
           />
           <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingVertical: 10 }}>
 
-            <MealContainer />
+            <ProfileContainer />
             <View style={{
               backgroundColor: Colors.white,
               marginVertical: 20,
@@ -76,7 +92,7 @@ const SellerProfileTab = ({ navigation }: any) => {
               {
                 ProfileTabOptions.map((item, index) => (
                   <TouchableOpacity key={item.id} style={{
-                    borderBottomWidth: index == 5 ? 0 : 1,
+                    borderBottomWidth: index ==  ProfileTabOptions.length -1  ? 0 : 1,
                     paddingVertical: 18,
                     borderBottomColor: Colors.border,
                     flexDirection: "row",
@@ -126,7 +142,7 @@ const SellerProfileTab = ({ navigation }: any) => {
       </SafeAreaFile>
       <LogoutModal isVisible={logoutVisible}
         onClose={() => setLogoutVisible(false)}
-        onLogout={()=>navigation.navigate("AuthNavigator")}
+        onLogout={() => navigation.navigate("AuthNavigator")}
       />
     </View>
   )

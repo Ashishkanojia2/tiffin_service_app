@@ -4,9 +4,7 @@ import {
   Platform,
   StyleProp,
   ViewStyle,
-  TouchableWithoutFeedback,
   Keyboard,
-  View,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 interface KeyboardWrapperProps {
@@ -40,15 +38,13 @@ const KeyboardWrapper: FC<KeyboardWrapperProps> = ({
   if (Platform.OS === 'ios') {
     const offset = keyboardVerticalOffset ?? insets.bottom;
     return (
-      //<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <KeyboardAvoidingView
           style={[{ flex: 1 }, style]}
           behavior="padding"
-          keyboardVerticalOffset={offset + 20}
+          keyboardVerticalOffset={20}
         >
           {children}
         </KeyboardAvoidingView>
-      //</TouchableWithoutFeedback>
     );
   }
   return (

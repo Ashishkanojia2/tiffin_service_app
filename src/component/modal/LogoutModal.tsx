@@ -32,7 +32,7 @@ const LogoutModal = (
         const getuser = async () => {
             try {
                 const user = await Storage?.getItem({ key: "userType" })
-                setLoginUser(user)
+                setLoginUser(user ?? '')
             } catch (error) {
                 console.log(error);
 

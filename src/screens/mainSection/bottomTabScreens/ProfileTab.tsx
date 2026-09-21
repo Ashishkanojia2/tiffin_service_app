@@ -21,7 +21,7 @@ const ProfileTabOptions: ProfileTabOptions[] = [
         id: "1",
         option: "Delivery address",
         icon: Icons.MAP_PIN,
-        navigateTo: "DeliveryAddressScreen"
+        navigateTo: "EditProfileScreen"
 
     }, {
         id: "2",
@@ -44,16 +44,16 @@ const ProfileTabOptions: ProfileTabOptions[] = [
         icon: Icons.SHIELD,
         navigateTo: "TermsAndConditionsScreen"
     },
-     {
+    {
         id: "5",
         option: "Privacy policy",
         icon: Icons.SHIELD,
         navigateTo: "PrivacyPolicyScreen"
     },
 ]
-const ProfileTab = ({navigation}:any) => {
+const ProfileTab = ({ navigation }: any) => {
     const [isNotificationEnable, setIsNotificationEnable] = useState(false)
-      const [logoutVisible, setLogoutVisible] = useState(false)
+    const [logoutVisible, setLogoutVisible] = useState(false)
     return (
         <View style={CommonStyle.appBackground}>
             <SafeAreaFile>
@@ -64,21 +64,25 @@ const ProfileTab = ({navigation}:any) => {
                         showDoubleTitle={false}
                     />
                     <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingVertical: 10 }}>
-                        <View style={styles.topProfileContainer}>
-                            <View style={styles.profile}>
-                                <Text style={styles.profileText}>R</Text>
+                        <TouchableOpacity style={styles.topProfileContainer} activeOpacity={0.8} onPress={()=>navigation.navigate("EditProfileScreen")}>
+                            <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
+                                <View style={styles.profile}>
+                                    <Text style={styles.profileText}>R</Text>
+                                </View>
+                                <View >
+                                    <Text style={styles.titleStyle} numberOfLines={1}>Rahul Kumar</Text>
+                                    <Text style={styles.subTitleStyle}>+91 8003989125</Text>
+                                </View>
                             </View>
-                            <View >
-                                <Text style={styles.titleStyle} numberOfLines={1}>Rahul Kumar</Text>
-                                <Text style={styles.subTitleStyle}>+91 8003989125</Text>
-                            </View>
-                        </View>
+                            <Image source={Icons.LeftArrow} style={{ height: 18, width: 18, transform: [{ rotateZ: "180deg" }] }} />
+                        </TouchableOpacity>
 
                         <View style={{
                             backgroundColor: Colors.white,
                             marginVertical: 20,
+                            borderWidth:1,
+                            borderColor:Colors.border,
                             borderRadius: 15,
-                            ...CommonStyle.shadowStyle,
                             paddingHorizontal: 10
                         }}>
                             {
@@ -92,7 +96,7 @@ const ProfileTab = ({navigation}:any) => {
                                         flex: 1
                                     }}
                                         activeOpacity={0.7}
-                                        onPress={()=>navigation.navigate(item.navigateTo)}
+                                        onPress={() => navigation.navigate(item.navigateTo)}
                                     >
                                         <View style={[CommonStyle.flexStyle, { gap: 10 }]}>
                                             <Image source={item.icon} style={{ height: 20, width: 20 }} tintColor={Colors.textSecondary} resizeMode='contain' />
@@ -150,16 +154,9 @@ const styles = StyleSheet.create({
         gap: 10,
         paddingVertical: 20,
         paddingHorizontal: 10,
-        shadowColor: '#000',
-        shadowOffset: {
-            width: 0,
-            height: 1,
-        },
-        shadowOpacity: 0.1,
-        shadowRadius: 4,
-
-        // Shadow - Android
-        elevation: 2,
+      borderWidth:1,
+      borderColor:Colors.border,
+      justifyContent:"space-between"
     },
     profile: {
         borderRadius: 50,

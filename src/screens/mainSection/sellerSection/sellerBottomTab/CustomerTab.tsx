@@ -60,8 +60,9 @@ const customers = [
     initial: 'N',
   },
 ];
-const CustomerTab = () => {
-  const [selectedFilter, setSelectFilter] = useState<string[]>(["all"]);
+const CustomerTab = ({navigation, route}:any) => {
+  const {key} = route?.params ?? 'all'
+  const [selectedFilter, setSelectFilter] = useState<string[]>([key]);
   const filterHandler = (label: string) => {
     if (!label) return;
     const isFilterSelected = selectedFilter.includes(label);
@@ -83,12 +84,13 @@ const CustomerTab = () => {
               <Text style={styles.subTitle}>Total 4 subscriber</Text>
             }
           />
-          <View style={{ flexDirection: "row" }}>
+          <View style={{ flexDirection: "row", gap:10}}>
             {
               FilterOption.map((item) => (
                 <Container key={item.id} lable={item.option}
                   onPress={() => filterHandler(item.id)}
                   containerStyle={{
+                    paddingHorizontal:20,
                     backgroundColor: selectedFilter.find((i) => i == item.id) ? Colors.primary : Colors.background
                   }}
                   lableStyle={{

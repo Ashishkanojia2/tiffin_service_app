@@ -23,16 +23,17 @@ const HelpAndSupportScreen = ({ navigation }: any) => {
     return (
         <View style={CommonStyle.appBackground}>
             <SafeAreaFile>
-                <View style={CommonStyle.appBorderSpacing}>
-                    <AppHeader title="Rate your tiffin" showDoubleTitle={false} />
-                    <KeyboardWrapper>
+                <KeyboardWrapper>
+                    <View style={CommonStyle.appBorderSpacing}>
+                        <AppHeader title="Help and Support" showDoubleTitle={false} />
                         <ScrollView
                             ref={scrollViewRef}
                             style={styles.scrollView}
                             showsVerticalScrollIndicator={false}
                             keyboardShouldPersistTaps="handled"
                             contentContainerStyle={styles.scrollContent}
-                            >
+                        >
+                            <View>
                                 <Text style={styles.lableStyle}>
                                     Write a you query
                                 </Text>
@@ -54,18 +55,18 @@ const HelpAndSupportScreen = ({ navigation }: any) => {
                                     }}
                                     onChangeText={setReviewMessage}
                                 />
-
                                 <Text style={styles.bottomTxtStyle}>
                                     {MAX_REVIEW_LIMIT - reviewMessage.length} remaining
                                 </Text>
+                            </View>
+                            <AppButton
+                                lable="Submit Rating"
+                                buttonType="FIELD"
+                                buttonStyle={styles.submitButton}
+                            />
                         </ScrollView>
-                                <AppButton
-                                    lable="Submit Rating"
-                                    buttonType="FIELD"
-                                    buttonStyle={styles.submitButton}
-                                />
-                    </KeyboardWrapper>
-                </View>
+                    </View>
+                </KeyboardWrapper>
             </SafeAreaFile>
         </View>
     );
@@ -80,10 +81,9 @@ const styles = StyleSheet.create({
     scrollContent: {
         flexGrow: 1,
         paddingTop: 10,
-        paddingBottom: 24,
+        justifyContent: "space-between"
     },
     submitButton: {
-        marginTop: 20,
         marginBottom: 10,
     },
     lableStyle: {

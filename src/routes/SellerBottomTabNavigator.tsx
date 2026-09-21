@@ -18,18 +18,12 @@ const SellerBottomTabNavigator = () => {
                 screenOptions={{
                     headerShown: false,
                     tabBarShowLabel: true,
-
                     tabBarStyle: {
-                        height: 100,
-                        paddingTop: 5,
-                        borderTopWidth: 0,
+                        height: 80,
+                        borderTopWidth: 1,
                         backgroundColor: Colors.background,
-                       paddingRight:10,
-                       paddingLeft:20
+                        paddingHorizontal: 10
                     },
-                    tabBarBackground: () => (
-                        <View style={styles.tabBarBackground} />
-                    ),
                     animation: 'fade',
                 }}
             >

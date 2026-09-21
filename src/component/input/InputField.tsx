@@ -80,7 +80,7 @@ export default InputField;
 const styles = StyleSheet.create({
     container: {
         width: '100%',
-        ...CommonStyle.shadowStyle
+        // ...CommonStyle.shadowStyle
     },
     inputWrapper: {
         flexDirection: 'row',

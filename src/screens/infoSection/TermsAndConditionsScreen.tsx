@@ -246,7 +246,6 @@ const TermsAndConditionsScreen = () => {
           </ScrollView>
         </View>
       </SafeAreaFile>
-      <Text>PrivacyPolicyScreen</Text>
     </View>
   )
 }

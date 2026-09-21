@@ -1,4 +1,4 @@
-import { Dimensions, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Dimensions, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 import BaseModal, { BaseModalProps } from './BaseModal'
 import { Fonts } from '../../assets/fonts'
@@ -7,8 +7,10 @@ import { Icons } from '../../assets/icons'
 import { CommonStyle } from '../../helper/uiComponent/CommonStyle'
 import InputField from '../input/InputField'
 import AppButton from '../button/AppButton'
+import DropDownInput from '../input/DropDownInput'
 const { height } = Dimensions.get('window');
 type EditModalProps = BaseModalProps & {
+    modalType?: "EDIT_MEAL" | "ADD_MEAL"
 }
 
 const foodPreference = [
@@ -22,16 +24,28 @@ const foodPreference = [
     },
 
 ]
-
+const foodTime = [
+    {
+        id: "lunch",
+        mealTime: "Lunch"
+    },
+    {
+        id: "dinner",
+        mealTime: "Dinner"
+    },
+]
 
 const EditModal = ({
     isVisible,
     onClose,
+    modalType = "EDIT_MEAL"
+
 }: EditModalProps) => {
     const [preferenceType, setPreferenceType] = useState("Veg")
+    const [mealTime, setmealTime] = useState("lunch")
     return (
         <BaseModal isVisible={isVisible} onClose={onClose}  >
-            <Text style={styles.headerTxtStyle}>Edit Meal</Text>
+            <Text style={styles.headerTxtStyle}> {modalType == "ADD_MEAL" ? "Add meal" : "Edit Meal"}</Text>
             <View style={{ gap: 15 }}>
                 <View style={styles.imageContainer}>
                     <Image source={Icons.CAMERA} style={{ height: 35, width: 35 }} resizeMode="contain" />
@@ -41,7 +55,10 @@ const EditModal = ({
                             { fontFamily: Fonts.Poppins.SemiBold, fontSize: 15 },
                         ]}
                     >
-                        Upload today's meal photo
+                        {
+                            modalType == "ADD_MEAL" ? "Uopload meal photo" :
+                                "Upload today's meal photo"
+                        }
                     </Text>
                 </View>
                 <InputField
@@ -52,6 +69,13 @@ const EditModal = ({
                     label='Price per meal (₹)*'
                     placeholder='Enter meal price'
                 />
+                {
+                    modalType == "ADD_MEAL" &&
+                    <DropDownInput
+                        label='Meal day'
+                        placeholder='Enter meal price'
+                    />
+                }
                 <View>
                     <Text style={styles.labelTxt}>Meal type</Text>
                     <View style={[CommonStyle.flexStyle, { justifyContent: "space-evenly", gap: 10 }]}>
@@ -66,6 +90,23 @@ const EditModal = ({
                         }
                     </View>
                 </View>
+                {
+                    modalType == "ADD_MEAL" &&
+                    <View>
+                        <Text style={styles.labelTxt}>Meal time</Text>
+                        <View style={[CommonStyle.flexStyle, { justifyContent: "space-evenly", gap: 10 }]}>
+                            {
+                                foodTime.map((item) => (
+                                    <TouchableOpacity activeOpacity={0.8} key={item.id} onPress={() => setmealTime(item.id)}
+                                        style={[styles.mealContainer, mealTime === item.id ? styles.selectedMealContainer : undefined]}
+                                    >
+                                        <Text style={[styles.mealTxtStyle, { color: mealTime == item.id ? Colors.primary : undefined }]}>{item.mealTime}</Text>
+                                    </TouchableOpacity>
+                                ))
+                            }
+                        </View>
+                    </View>
+                }
                 <AppButton lable='Save menu' />
             </View>
         </BaseModal>
@@ -89,7 +130,7 @@ const styles = StyleSheet.create({
         height: height / 7,
         width: '100%',
         marginTop: 20,
-        ...CommonStyle.shadowStyle,
+        // ...CommonStyle.shadowStyle,
         gap: 10,
         borderWidth: 1,
         borderStyle: 'dashed',

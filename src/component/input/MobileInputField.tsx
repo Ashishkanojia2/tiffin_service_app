@@ -1,18 +1,16 @@
-import { StyleSheet, Text, View, ViewStyle } from 'react-native'
+import { StyleSheet, Text, TextInputProps, View, ViewStyle } from 'react-native'
 import React from 'react'
-import InputField from './InputField'
+import InputField, { InputProps } from './InputField'
 import { Colors } from '../../theme/Colors'
 import { Fonts } from '../../assets/fonts'
 
-type MobileInputFieldProps = {
+type MobileInputFieldProps = InputProps & {
     containerStyle?: ViewStyle,
     showError?: boolean,
     errorMsg?: string
 }
 
-
-
-const MobileInputField = ({ containerStyle, showError, errorMsg }: MobileInputFieldProps) => {
+const MobileInputField = ({ containerStyle, showError, errorMsg, ...rest}: MobileInputFieldProps) => {
     return (
         <View style={[styles.container, containerStyle]}>
             <View style={styles.labelStyle}>
@@ -26,6 +24,7 @@ const MobileInputField = ({ containerStyle, showError, errorMsg }: MobileInputFi
                 <InputField inputContainerStyle={{ flex: 1 }} keyboardType='decimal-pad'
                     inputWrapperStyle={{ borderColor: showError ? Colors.error : Colors.border }}
                     maxLength={10}
+                    {...rest}
                 />
             </View>
             {
@@ -65,7 +64,7 @@ const styles = StyleSheet.create({
         marginRight: 5
     },
     labelTxt: {
-        fontSize: 13,
+        fontSize: 16,
         marginBottom: 4,
         fontFamily: Fonts.Inter.Medium,
         color: Colors.textSecondary,

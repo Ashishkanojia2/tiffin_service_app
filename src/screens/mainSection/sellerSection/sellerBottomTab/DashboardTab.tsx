@@ -1,5 +1,5 @@
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import { CommonStyle } from '../../../../helper/uiComponent/CommonStyle'
 import SafeAreaFile from '../../../../helper/uiComponent/SafeAreaFile'
 import AppHeader from '../../../../component/header/AppHeader'
@@ -11,6 +11,7 @@ import ViewAllComponent from '../../../../component/other/ViewAllComponent'
 import RequestUserContainer from '../../../../component/container/RequestUserContainer'
 import MenuContainer, { MenuDataPropsType } from '../../../../component/container/MenuContainer'
 import { Images } from '../../../../assets/images'
+import EditModal from '../../../../component/modal/EditModal'
 
 const dashboardData = [
   {
@@ -57,6 +58,7 @@ const OrderListProps: MenuDataPropsType[] = [
   },
 ]
 const DashboardTab = ({ navigation }: any) => {
+  const [isEditMenuVisible , setisEditMenuVisible] = useState(false)
   return (
     <View style={CommonStyle.appBackground}>
       <SafeAreaFile>
@@ -82,7 +84,7 @@ const DashboardTab = ({ navigation }: any) => {
             </View>
             <ViewAllComponent lable="Today's menu. Fri"
               rightTxt='Edit menu'
-              onRightPress={() => { }}
+              onRightPress={() => setisEditMenuVisible(true)}
               rightLableStyle={{
                 color: Colors.primary,
                 fontSize: 13
@@ -100,7 +102,7 @@ const DashboardTab = ({ navigation }: any) => {
             }
             <ViewAllComponent lable="New requests"
               rightTxt='See all'
-              onRightPress={() => { }}
+              onRightPress={() => navigation.navigate("CustomerTab" ,{ key : "newRequest"})}
               rightLableStyle={{
                 color: Colors.primary,
                 fontSize: 13
@@ -139,7 +141,10 @@ const DashboardTab = ({ navigation }: any) => {
           </ScrollView>
         </View>
       </SafeAreaFile>
-
+      {
+        isEditMenuVisible &&
+        <EditModal isVisible={isEditMenuVisible} onClose={() => setisEditMenuVisible(false)} />
+      }
     </View>
   )
 }
