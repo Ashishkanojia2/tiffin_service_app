@@ -1,6 +1,8 @@
+import { Asset } from 'react-native-image-picker';
+
 export type ApiResponseType<T> = {
   message: string;
-  result: T;
+  result?: T;
   success: boolean;
 };
 
@@ -51,8 +53,8 @@ export type KitchenDashBoardProps = {
     totalTiffinDelivered: number;
     __v: number;
     _id: string;
-  },
-  todayMenu:MealListResponseProps
+  };
+  todayMenu: MealListResponseProps;
 };
 
 export type MealImageProps = {
@@ -63,9 +65,10 @@ export type MealImageProps = {
 export type MealListResponseProps = {
   _id: string;
   mealDay: string;
+  // mealImage: Asset | null;
   mealImage: MealImageProps;
   mealName: string;
   mealTime: string;
   mealType: string;
-  price: number;
+  price: string;
 };

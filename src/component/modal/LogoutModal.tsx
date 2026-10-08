@@ -1,53 +1,56 @@
 import { StyleSheet, Text, View } from 'react-native'
-import React, { useState } from 'react'
+import React from 'react'
 import BaseModal from './BaseModal'
 import AppButton from '../button/AppButton'
 import { Fonts } from '../../assets/fonts'
 import { Colors } from '../../theme/Colors'
-import Storage from '../../utils/Storage'
+import { LogoutApi } from '../../network/AuthApi'
+import { STORE_KEY } from '../../storage/StoreKey'
+import localStorage from '../../storage/LocalStorage'
 type LogoutProps = {
     isVisible: boolean;
     onClose: () => void;
-    selectedUser?: "buyer" | "seller";
     onLogout: () => void
 }
 const LogoutModal = (
     { isVisible = true,
         onClose,
-        selectedUser,
         onLogout, }: LogoutProps
 ) => {
-    const [loginuser, setLoginUser] = useState<string>("")
+    const loginuser = localStorage.getItem(STORE_KEY.USERTYPE)
+    const isBuyer = loginuser === 'buyer';
+    const appName = isBuyer
+        ? 'TiffinWala'
+        : 'Kitchen';
+
+    const logoutMessage = isBuyer
+        ? 'Your subscriptions and orders stay saved. Login again with your phone number.'
+        : 'Your menu and customers stay saved. Login again with your phone number.';
 
     const logoutHandler = async () => {
         try {
-            await Storage.removeItem('userType')
-            onLogout()
-            onClose()
+            const res = await LogoutApi()
+            if (res.success) {
+                localStorage.deleteAll()
+                onLogout()
+                onClose()
+            }
         } catch (error) {
             console.log("Logout Error:", error)
         }
     }
-    React.useEffect(() => {
-        const getuser = async () => {
-            try {
-                const user = await Storage?.getItem({ key: "userType" })
-                setLoginUser(user ?? '')
-            } catch (error) {
-                console.log(error);
-
-            }
-        }
-        getuser()
-    }, [isVisible])
     return (
         <BaseModal isVisible={isVisible} onClose={onClose}  >
-            <Text style={styles.headerTxtStyle}>Logout from your {loginuser == "buyer" ? "TiffinWala" : "Kitchen"}</Text>
-            <Text style={styles.labelTxt}>Your menu and customers stay saved. Login again with your phone number.</Text>
+            <Text style={styles.headerTxtStyle}>
+                Logout from your {appName}
+            </Text>
+            <Text style={styles.labelTxt}>
+                {logoutMessage}
+            </Text>
             <View style={{ flexDirection: "row", gap: 10, alignSelf: "flex-end", width: "70%" }}>
                 <AppButton lable="Cancel" buttonStyle={styles.button} buttonType="OUTLINE" onPress={onClose} />
-                <AppButton lable="Logout" buttonStyle={styles.button} onPress={logoutHandler} /> 
-                </View>
+                <AppButton lable="Logout" buttonStyle={styles.button} onPress={logoutHandler} />
+            </View>
         </BaseModal>
     )
 }
@@ -61,7 +64,7 @@ const styles = StyleSheet.create({
         color: Colors.textPrimary,
     },
     labelTxt: {
-        fontSize: 16,
+        fontSize: 14,
         marginTop: 10,
         marginBottom: 20,
         fontFamily: Fonts.Inter.Medium,

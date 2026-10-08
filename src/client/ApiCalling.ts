@@ -6,7 +6,7 @@ const BASEURL = 'http://10.157.231.62:4000/api/v1';
 
 export const axiosClient = axios.create({
   baseURL: BASEURL,
-  // timeout: 10000, //10sec , 5sec
+  timeout: 10000, //10sec , 5sec
   headers: {
     Accept: 'application/json',
   },

@@ -1,5 +1,5 @@
 import { Dimensions, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import BaseModal, { BaseModalProps } from './BaseModal'
 import { Fonts } from '../../assets/fonts'
 import { Colors } from '../../theme/Colors'
@@ -10,13 +10,15 @@ import AppButton from '../button/AppButton'
 import DropDownInput from '../input/DropDownInput'
 import { AddMealFormDataProps } from '../../types/ApiRequestType'
 import MediaPicker from '../../utils/MediaPicker'
-import { addMealApi, mealListApi } from '../../network/ClientApi'
+import { addMealApi, editMealApi, mealListApi } from '../../network/ClientApi'
 import { showSuccessToast } from '../../utils/Toast'
 import localStorage from '../../storage/LocalStorage'
 import { STORE_KEY } from '../../storage/StoreKey'
+import { MealListResponseProps } from '../../types/ApiResponseType'
 const { height } = Dimensions.get('window');
 type EditModalProps = BaseModalProps & {
-    modalType?: "EDIT_MEAL" | "ADD_MEAL"
+    modalType?: "EDIT_MEAL" | "ADD_MEAL",
+    mealData?: MealListResponseProps
 }
 const foodPreference = [
     {
@@ -42,20 +44,48 @@ const foodTime = [
 const EditModal = ({
     isVisible,
     onClose,
-    modalType = "EDIT_MEAL"
+    modalType = "EDIT_MEAL",
+    mealData
 }: EditModalProps) => {
-    // const [preferenceType, setPreferenceType] = useState("")
-    // const [mealTime, setmealTime] = useState("")
     const [loading, setLoading] = useState(false)
-
     const [data, setData] = useState<AddMealFormDataProps>({
         mealImage: null,
-        mealName: "",
-        mealPrice: "",
-        mealDay: "",
-        mealType: "",
-        mealTime: "",
-    })
+        mealName: '',
+        mealPrice: '',
+        mealDay: '',
+        mealType: '',
+        mealTime: '',
+    });
+    useEffect(() => {
+        if (mealData) {
+            setData({
+                mealImage: mealData.mealImage
+                    ? {
+                        uri: mealData.mealImage.url,
+                    }
+                    : null,
+                mealName: mealData.mealName ?? '',
+                mealPrice:
+                    mealData.price !== undefined && mealData.price !== null
+                        ? String(mealData.price)
+                        : '',
+                mealDay: mealData.mealDay ?? '',
+                mealType: mealData.mealType ?? '',
+                mealTime: mealData.mealTime ?? '',
+            });
+        } else {
+            setData({
+                mealImage: null,
+                mealName: '',
+                mealPrice: '',
+                mealDay: '',
+                mealType: '',
+                mealTime: '',
+            });
+        }
+    }, [mealData, isVisible]);
+    console.log("data", data);
+
 
     const handleChange = <Key extends keyof AddMealFormDataProps>(
         key: Key,
@@ -78,7 +108,7 @@ const EditModal = ({
             console.error('Error selecting media:', error);
         }
     };
-    const AddMealHandler = async () => {
+    const AddMealHandler = async (type: string) => {
         try {
             setLoading(true)
             const kitchenId = localStorage.getItem(STORE_KEY.KITCHEN_ID)
@@ -97,7 +127,12 @@ const EditModal = ({
                 };
                 formData.append('mealImage', photo as unknown as Blob);
             }
+
+
             const response = await addMealApi(formData)
+
+
+
             if (response.success) {
                 await mealListApi()
                 showSuccessToast({
@@ -130,7 +165,7 @@ const EditModal = ({
                 <TouchableOpacity activeOpacity={0.7} onPress={() => handleMediaPicker("library")} style={styles.imageContainer}>
                     {
                         data.mealImage ?
-                            <Image source={{ uri: data.mealImage.uri }} style={{ height: '100%', width: '100%', borderRadius: 15 }} resizeMode="cover" />
+                            <Image source={{ uri: data.mealImage?.uri?.replace('http://', 'https://') }} style={{ height: '100%', width: '100%', borderRadius: 15 }} resizeMode="cover" />
                             :
                             <>
                                 <Image source={Icons.CAMERA} style={{ height: 35, width: 35 }} resizeMode="contain" />
@@ -208,7 +243,7 @@ const EditModal = ({
                         </View>
                     </View>
                 }
-                <AppButton lable='Save menu' onPress={() => AddMealHandler()} loading={loading} />
+                <AppButton lable='Save menu' onPress={() => modalType == "ADD_MEAL" ? AddMealHandler(modalType) : {}} loading={loading} />
             </View>
         </BaseModal>
     )

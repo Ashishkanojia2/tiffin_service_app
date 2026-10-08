@@ -40,3 +40,11 @@ export const RegisterKitchenRequest = async (
     throw error;
   }
 };
+export const LogoutApi = async (): Promise<ApiResponseType<null>> => {
+  try {
+    const response = await axiosClient.post(ENDPOINT.AUTH.LOGOUT);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

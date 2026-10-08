@@ -2,6 +2,7 @@ export const ENDPOINT = {
   AUTH: {
     REGISTER: '/auth/register',
     ADD_ADDRESS: '/auth/addLocation',
+    LOGOUT: '/auth/logout',
   },
   KITCHEN_AUTH: {
     REGISTER_KITCHEN: '/kitchen/registerKitchen',

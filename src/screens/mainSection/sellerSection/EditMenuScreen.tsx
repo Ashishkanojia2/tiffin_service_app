@@ -16,11 +16,13 @@ const EditMenuScreen = () => {
   const { mealList } = useMealStore();
   const [editModalVisble, setEditModalVisible] = useState(false)
   const [modalType, setModalType] = useState<"EDIT_MEAL" | "ADD_MEAL">("EDIT_MEAL")
+  const [selecteMealForEdit, setSelectMealForEdit] = useState<MealListResponseProps>()
 
-  const modalHandler = (type: "EDIT_MEAL" | "ADD_MEAL") => {
+  const modalHandler = (type: "EDIT_MEAL" | "ADD_MEAL", data?: MealListResponseProps) => {
     if (!type) return
     setModalType(type)
     setEditModalVisible(true)
+    setSelectMealForEdit(data)
   }
   return (
     <View style={CommonStyle.appBackground}>
@@ -41,15 +43,20 @@ const EditMenuScreen = () => {
                   key={item._id}
                   data={item}
                   isEditable
-                  onEditPress={() => modalHandler("EDIT_MEAL")}
+                  onEditPress={() => modalHandler("EDIT_MEAL", item)}
                 />
               ))
             }
-            <AppButton lable='Add menu' onPress={() => modalHandler("ADD_MEAL")} />
+            {
+              Array.isArray(mealList) &&
+              mealList.length < 7 &&
+              <AppButton lable='Add menu' onPress={() => modalHandler("ADD_MEAL")} />
+            }
           </ScrollView>
         </View>
       </SafeAreaFile>
-      <EditModal isVisible={editModalVisble} onClose={() => setEditModalVisible(false)} modalType={modalType} />
+      <EditModal isVisible={editModalVisble} mealData={selecteMealForEdit}
+        onClose={() => setEditModalVisible(false)} modalType={modalType} />
     </View>
   )
 }

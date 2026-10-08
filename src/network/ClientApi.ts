@@ -23,7 +23,6 @@ export const KitchenDetailsApi = async (
   return response.data;
 };
 
-
 export const KitchenDashboardApi = async (
   param: string,
 ): Promise<ApiResponseType<KitchenDashBoardProps>> => {
@@ -64,4 +63,12 @@ export const addMealApi = async (
     request,
   );
   return response.data;
+};
+export const editMealApi = async (request: AddMealRequestProps) => {
+  // const response = await axiosClient.post(
+  //   ENDPOINT.KITCHEN_CLIENT.ADD_MEAL,
+  //   request,
+  // );
+  // return response.data;
+  return null;
 };
