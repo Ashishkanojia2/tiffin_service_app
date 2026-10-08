@@ -1,4 +1,4 @@
-import { Dimensions, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Dimensions, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 import BaseModal, { BaseModalProps } from './BaseModal'
 import { Fonts } from '../../assets/fonts'
@@ -8,11 +8,16 @@ import { CommonStyle } from '../../helper/uiComponent/CommonStyle'
 import InputField from '../input/InputField'
 import AppButton from '../button/AppButton'
 import DropDownInput from '../input/DropDownInput'
+import { AddMealFormDataProps } from '../../types/ApiRequestType'
+import MediaPicker from '../../utils/MediaPicker'
+import { addMealApi, mealListApi } from '../../network/ClientApi'
+import { showSuccessToast } from '../../utils/Toast'
+import localStorage from '../../storage/LocalStorage'
+import { STORE_KEY } from '../../storage/StoreKey'
 const { height } = Dimensions.get('window');
 type EditModalProps = BaseModalProps & {
     modalType?: "EDIT_MEAL" | "ADD_MEAL"
 }
-
 const foodPreference = [
     {
         id: "1",
@@ -34,46 +39,137 @@ const foodTime = [
         mealTime: "Dinner"
     },
 ]
-
 const EditModal = ({
     isVisible,
     onClose,
     modalType = "EDIT_MEAL"
-
 }: EditModalProps) => {
-    const [preferenceType, setPreferenceType] = useState("Veg")
-    const [mealTime, setmealTime] = useState("lunch")
+    // const [preferenceType, setPreferenceType] = useState("")
+    // const [mealTime, setmealTime] = useState("")
+    const [loading, setLoading] = useState(false)
+
+    const [data, setData] = useState<AddMealFormDataProps>({
+        mealImage: null,
+        mealName: "",
+        mealPrice: "",
+        mealDay: "",
+        mealType: "",
+        mealTime: "",
+    })
+
+    const handleChange = <Key extends keyof AddMealFormDataProps>(
+        key: Key,
+        value: AddMealFormDataProps[Key],
+    ) => {
+        setData(prev => ({
+            ...prev,
+            [key]: value,
+        }));
+    };
+    const handleMediaPicker = async (type: 'camera' | 'library') => {
+        try {
+            const result = await MediaPicker(type);
+            if (!result?.uri) return;
+            setData(prev => ({
+                ...prev,
+                mealImage: result,
+            }));
+        } catch (error) {
+            console.error('Error selecting media:', error);
+        }
+    };
+    const AddMealHandler = async () => {
+        try {
+            setLoading(true)
+            const kitchenId = localStorage.getItem(STORE_KEY.KITCHEN_ID)
+            const formData = new FormData();
+            formData.append('kitchenId', kitchenId)
+            formData.append('mealName', data?.mealName ?? '');
+            formData.append('price', data?.mealPrice ?? '');
+            formData.append('mealDay', data?.mealDay ?? '');
+            formData.append('mealType', data?.mealType ?? '');
+            formData.append('mealTime', data?.mealTime ?? '');
+            if (data.mealImage?.uri) {
+                const photo = {
+                    uri: data.mealImage.uri,
+                    type: data.mealImage.type ?? 'image/jpeg',
+                    name: data.mealImage.fileName ?? `kitchen_${Date.now()}.jpg`,
+                };
+                formData.append('mealImage', photo as unknown as Blob);
+            }
+            const response = await addMealApi(formData)
+            if (response.success) {
+                await mealListApi()
+                showSuccessToast({
+                    text1: response.message,
+                })
+                setTimeout(() => {
+                    onClose?.()
+                    setData({
+                        mealDay: "",
+                        mealImage: null,
+                        mealName: "",
+                        mealPrice: "",
+                        mealTime: "",
+                        mealType: ""
+                    })
+                }, 3000)
+            }
+            console.log("response api calling:", response)
+        } catch (error) {
+            console.log("error api calling:", error)
+            throw error
+        } finally {
+            setLoading(false)
+        }
+    }
     return (
-        <BaseModal isVisible={isVisible} onClose={onClose}  >
+        <BaseModal isVisible={isVisible} onClose={onClose}>
             <Text style={styles.headerTxtStyle}> {modalType == "ADD_MEAL" ? "Add meal" : "Edit Meal"}</Text>
             <View style={{ gap: 15 }}>
-                <View style={styles.imageContainer}>
-                    <Image source={Icons.CAMERA} style={{ height: 35, width: 35 }} resizeMode="contain" />
-                    <Text
-                        style={[
-                            styles.imageContainerText,
-                            { fontFamily: Fonts.Poppins.SemiBold, fontSize: 15 },
-                        ]}
-                    >
-                        {
-                            modalType == "ADD_MEAL" ? "Uopload meal photo" :
-                                "Upload today's meal photo"
-                        }
-                    </Text>
-                </View>
+                <TouchableOpacity activeOpacity={0.7} onPress={() => handleMediaPicker("library")} style={styles.imageContainer}>
+                    {
+                        data.mealImage ?
+                            <Image source={{ uri: data.mealImage.uri }} style={{ height: '100%', width: '100%', borderRadius: 15 }} resizeMode="cover" />
+                            :
+                            <>
+                                <Image source={Icons.CAMERA} style={{ height: 35, width: 35 }} resizeMode="contain" />
+                                <Text
+                                    style={[
+                                        styles.imageContainerText,
+                                        { fontFamily: Fonts.Poppins.SemiBold, fontSize: 15 },
+                                    ]}
+                                >
+                                    {
+                                        modalType == "ADD_MEAL" ? "Upload meal photo" :
+                                            "Update meal photo"
+                                    }
+                                </Text>
+                            </>
+                    }
+                </TouchableOpacity>
                 <InputField
                     label='Meal*'
                     placeholder='Enter meal name'
+                    value={data.mealName}
+                    onChangeText={(txt: string) =>
+                        handleChange('mealName', txt)
+                    }
                 />
                 <InputField
                     label='Price per meal (₹)*'
                     placeholder='Enter meal price'
+                    value={data.mealPrice}
+                    onChangeText={(txt: string) =>
+                        handleChange('mealPrice', txt)
+                    }
                 />
                 {
                     modalType == "ADD_MEAL" &&
                     <DropDownInput
                         label='Meal day'
                         placeholder='Enter meal price'
+                        selectedItem={(txt: string) => handleChange('mealDay', txt)}
                     />
                 }
                 <View>
@@ -81,10 +177,13 @@ const EditModal = ({
                     <View style={[CommonStyle.flexStyle, { justifyContent: "space-evenly", gap: 10 }]}>
                         {
                             foodPreference.map((item) => (
-                                <TouchableOpacity activeOpacity={0.8} key={item.id} onPress={() => setPreferenceType(item.mealType)}
-                                    style={[styles.mealContainer, preferenceType === item.mealType ? styles.selectedMealContainer : undefined]}
+                                <TouchableOpacity activeOpacity={0.8} key={item.id} onPress={() => {
+                                    handleChange("mealType", item.mealType)
+                                    // setPreferenceType(item.mealType)
+                                }}
+                                    style={[styles.mealContainer, data.mealType === item.mealType ? styles.selectedMealContainer : undefined]}
                                 >
-                                    <Text style={[styles.mealTxtStyle, { color: preferenceType == item.mealType ? Colors.primary : undefined }]}>{item.mealType}</Text>
+                                    <Text style={[styles.mealTxtStyle, { color: data.mealType == item.mealType ? Colors.primary : undefined }]}>{item.mealType}</Text>
                                 </TouchableOpacity>
                             ))
                         }
@@ -97,17 +196,19 @@ const EditModal = ({
                         <View style={[CommonStyle.flexStyle, { justifyContent: "space-evenly", gap: 10 }]}>
                             {
                                 foodTime.map((item) => (
-                                    <TouchableOpacity activeOpacity={0.8} key={item.id} onPress={() => setmealTime(item.id)}
-                                        style={[styles.mealContainer, mealTime === item.id ? styles.selectedMealContainer : undefined]}
+                                    <TouchableOpacity activeOpacity={0.8} key={item.id} onPress={() => {
+                                        handleChange("mealTime", item.mealTime)
+                                    }}
+                                        style={[styles.mealContainer, data.mealTime === item.mealTime ? styles.selectedMealContainer : undefined]}
                                     >
-                                        <Text style={[styles.mealTxtStyle, { color: mealTime == item.id ? Colors.primary : undefined }]}>{item.mealTime}</Text>
+                                        <Text style={[styles.mealTxtStyle, { color: data.mealTime == item.mealTime ? Colors.primary : undefined }]}>{item.mealTime}</Text>
                                     </TouchableOpacity>
                                 ))
                             }
                         </View>
                     </View>
                 }
-                <AppButton lable='Save menu' />
+                <AppButton lable='Save menu' onPress={() => AddMealHandler()} loading={loading} />
             </View>
         </BaseModal>
     )

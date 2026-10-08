@@ -7,8 +7,10 @@ import { CommonStyle } from '../../helper/uiComponent/CommonStyle'
 import MobileInputField from '../../component/input/MobileInputField'
 import AppButton from '../../component/button/AppButton'
 import Segement from '../../component/segement'
-import Storage from '../../utils/Storage'
 import KeyboardWrapper from '../../utils/KeyboardWrapper'
+import { LoginRequest } from '../../network/AuthApi'
+import { showSuccessToast } from '../../utils/Toast'
+import { PhoneValidation } from '../../utils/Validations'
 
 const loginUser = [
     {
@@ -19,20 +21,29 @@ const loginUser = [
         id: "seller",
         lable: "Login as Seller"
     },
-
 ]
 const LoginScreen = ({ navigation }: any) => {
     const [selectedUser, setSelectedUser] = useState("buyer")
-
+    const [phoneNo, setPhoneNo] = useState('')
     const loginHandler = async () => {
+        if (!PhoneValidation(phoneNo)) return;
         try {
-            await Storage.setItem({ key: 'userType', value: selectedUser })
-            navigation.navigate("OtpVerificationScreen")
+            const response = await LoginRequest({
+                phone: phoneNo,
+                role: selectedUser,
+            })
+            if (response.success) {
+                showSuccessToast({
+                    text1: "Login Successful",
+                    text2: "You have been logged in successfully."
+                })
+                navigation.navigate("OtpVerificationScreen")
+            }
         } catch (error) {
+            console.log("error api calling:", error)
             throw error
         }
     }
-
     return (
         <View style={CommonStyle.appBorderSpacingWithBottom}>
             <KeyboardWrapper>
@@ -41,7 +52,7 @@ const LoginScreen = ({ navigation }: any) => {
                     <Text style={styles.titleStyle}>Welcome to TiffinWala</Text>
                     <Text style={styles.subTitle}>Login with your mobile number to continue</Text>
                     <Segement segementData={loginUser} selectedValue={(txt: string) => setSelectedUser(txt)} containerStyle={{ marginTop: 30 }} />
-                    <MobileInputField containerStyle={{ marginVertical: 20 }} />
+                    <MobileInputField value={phoneNo} onChangeText={(txt) => setPhoneNo(txt)} containerStyle={{ marginVertical: 20 }} />
                 </ScrollView>
                 <AppButton lable='Send OTP' onPress={loginHandler} />
                 <Text style={styles.policyMsg}>By continuing you agree to our Terms & Privacy Policy</Text>

@@ -3,6 +3,8 @@ import React, { ReactNode } from 'react'
 import { Colors } from '../../theme/Colors'
 import KeyboardWrapper from '../../utils/KeyboardWrapper'
 import { Icons } from '../../assets/icons'
+import Toast from 'react-native-toast-message'
+
 
 export type BaseModalProps = {
     isVisible?: boolean
@@ -46,6 +48,7 @@ const BaseModal = ({ isVisible, onClose, children,
                     </View>
                 </TouchableWithoutFeedback>
             </KeyboardWrapper>
+            <Toast/>
         </Modal>
     )
 }
@@ -56,6 +59,7 @@ const styles = StyleSheet.create({
     overlay: {
         flex: 1,
         backgroundColor: Colors.backDrop,
+        
     },
     rootContainer: {
         maxHeight: "90%",

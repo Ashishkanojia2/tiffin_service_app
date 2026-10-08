@@ -6,12 +6,16 @@ import SplashScreen from '../screens/onBoarding/SplashScreen'
 import OnboardingScreen from '../screens/onBoarding/OnboardingScreen'
 import AuthNavigator from './AuthNavigator'
 import MainNavigator from './MainNavigator'
+import { LoginHandler } from '../utils/LoginHandler'
+import { navigationRef } from './NavigationService'
+
 
 const Stack = createNativeStackNavigator()
 const RootNavigator = () => {
+    const currentStatus = LoginHandler();
     return (
-        <NavigationContainer>   
-            <Stack.Navigator initialRouteName='AuthNavigator' screenOptions={{
+        <NavigationContainer ref={navigationRef}>
+            <Stack.Navigator initialRouteName={currentStatus == "MainNavigator" ? "MainNavigator" : 'AuthNavigator'} screenOptions={{
                 headerShown: false,
             }}>
                 <Stack.Screen name='SplashScreen' component={SplashScreen} />

@@ -1,5 +1,5 @@
-import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
-import React, { useState } from 'react'
+import { ScrollView, StyleSheet, Text, View } from 'react-native'
+import React, { useLayoutEffect, useState } from 'react'
 import { CommonStyle } from '../../../../helper/uiComponent/CommonStyle'
 import SafeAreaFile from '../../../../helper/uiComponent/SafeAreaFile'
 import AppHeader from '../../../../component/header/AppHeader'
@@ -9,56 +9,41 @@ import { Fonts } from '../../../../assets/fonts'
 import IconContainer from '../../../../component/other/IconContainer'
 import ViewAllComponent from '../../../../component/other/ViewAllComponent'
 import RequestUserContainer from '../../../../component/container/RequestUserContainer'
-import MenuContainer, { MenuDataPropsType } from '../../../../component/container/MenuContainer'
+import MenuContainer from '../../../../component/container/MenuContainer'
 import { Images } from '../../../../assets/images'
 import EditModal from '../../../../component/modal/EditModal'
+import { useKitchenStore } from '../../../../store/kitchenStore'
+import localStorage from '../../../../storage/LocalStorage'
+import { STORE_KEY } from '../../../../storage/StoreKey'
+import { KitchenDashboardApi, KitchenDetailsApi, mealListApi } from '../../../../network/ClientApi'
+import DashBoardSectionComponent from '../bottomTabScreensComponents/DashBoardSectionComponent'
+import { useKitchenDashboardStore } from '../../../../store/KitchenDashboardStore'
+import NoDataFound from '../../../../component/other/NoDataFound'
 
-const dashboardData = [
-  {
-    id: "1",
-    lable: "Today's tiffins",
-    bgColor: Colors.light_primary_shade,
-    image: Icons.CUTLERY,
-    value: "18",
-    iconColor: Colors.primary
-  },
-  {
-    id: "2",
-    lable: "Active subscriber",
-    bgColor: Colors.light_green_shade,
-    image: Icons.USERS,
-    value: "2",
-    iconColor: Colors.green
-  },
-  {
-    id: "3",
-    lable: "This month",
-    bgColor: Colors.background,
-    image: Icons.RUPEE,
-    value: "₹ 32000",
-    iconColor: Colors.textSecondary
-  }, {
-    id: "4",
-    lable: "Rating",
-    bgColor: Colors.background,
-    image: Icons.STAR_OUTLINE,
-    value: "4.5",
-    iconColor: Colors.textSecondary
-  },
-]
-const OrderListProps: MenuDataPropsType[] = [
-  {
-    id: "1",
-    amount: '70',
-    date: "20 Aug 2026",
-    foodItem: "Lunch. dal Fired,",
-    image: Images.KITCHEN_1,
-    isRated: false,
-    KitchenName: "Mon",
-  },
-]
 const DashboardTab = ({ navigation }: any) => {
-  const [isEditMenuVisible , setisEditMenuVisible] = useState(false)
+  const [isEditMenuVisible, setisEditMenuVisible] = useState(false)
+  const { setKitchenData } = useKitchenStore()
+  const { kitchenDashBoardData } = useKitchenDashboardStore()
+  const apiHandler = async () => {
+    try {
+      const kitchenId = localStorage.getItem(STORE_KEY.KITCHEN_ID)
+      const kitchenDashBoardId = localStorage.getItem(STORE_KEY.KITCHEN_DASHBOARD_ID)
+      const kitchenDetailsResponse = await KitchenDetailsApi(kitchenId ?? '')
+      if (!kitchenDetailsResponse.success) return
+      setKitchenData(kitchenDetailsResponse?.result ?? '')
+      const dashboardId =
+        kitchenDashBoardId ||
+        kitchenDetailsResponse.result.kitchenDashboardId;
+      if (!dashboardId) return
+      await KitchenDashboardApi(dashboardId)
+      await mealListApi()
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  useLayoutEffect(() => {
+    apiHandler()
+  }, [])
   return (
     <View style={CommonStyle.appBackground}>
       <SafeAreaFile>
@@ -74,14 +59,7 @@ const DashboardTab = ({ navigation }: any) => {
             }
           />
           <ScrollView showsVerticalScrollIndicator={false}>
-            <View style={styles.topContainer}>
-              {dashboardData.map((item, index) => (
-                <View key={item.id} style={styles.dashboardCard}>
-                  <IconContainer source={item.image} style={{ height: 18, width: 18, tintColor: item.iconColor }} containerStyle={{ padding: 7, backgroundColor: item.bgColor }} disablePress />
-                  <Text style={styles.title}>{item.value}</Text>
-                  <Text style={styles.lable}>{item.lable}</Text>
-                </View>))}
-            </View>
+            <DashBoardSectionComponent />
             <ViewAllComponent lable="Today's menu. Fri"
               rightTxt='Edit menu'
               onRightPress={() => setisEditMenuVisible(true)}
@@ -92,17 +70,17 @@ const DashboardTab = ({ navigation }: any) => {
               ContaineStyle={{ marginTop: 20, marginBottom: 10 }}
             />
             {
-
-              OrderListProps.map(item => (
+              kitchenDashBoardData?.todayMenu ?
                 <MenuContainer
-                  key={item.id}
-                  data={item}
-                />
-              ))
+                  data={kitchenDashBoardData.todayMenu}
+                /> :
+                <NoDataFound message='No meal for today.' />
             }
+
+
             <ViewAllComponent lable="New requests"
               rightTxt='See all'
-              onRightPress={() => navigation.navigate("CustomerTab" ,{ key : "newRequest"})}
+              onRightPress={() => navigation.navigate("CustomerTab", { key: "newRequest" })}
               rightLableStyle={{
                 color: Colors.primary,
                 fontSize: 13
@@ -123,15 +101,13 @@ const DashboardTab = ({ navigation }: any) => {
               ContaineStyle={{ marginTop: 20, marginBottom: 10 }}
             />
             <View style={styles.ProgressContainer}>
-              <IconContainer source={Icons.RISE} 
-              style={{tintColor:Colors.green , height:20, width:20}}
+              <IconContainer source={Icons.RISE}
+                style={{ tintColor: Colors.green, height: 20, width: 20 }}
 
-              containerStyle={{
-                backgroundColor: Colors.light_green_shade,
-                // padding: 7,
-                borderWidth: 0
-                
-              }}
+                containerStyle={{
+                  backgroundColor: Colors.light_green_shade,
+                  borderWidth: 0
+                }}
                 size={25} />
               <View style={styles.progressTxtContainer}>
                 <Text style={styles.progressTitle}>126 Tiffin delivered</Text>
@@ -156,22 +132,6 @@ const styles = StyleSheet.create({
     fontFamily: Fonts.Inter.Medium,
     fontSize: 14,
     color: Colors.textSecondary
-  },
-  topContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    flexWrap: 'wrap',
-    gap: 10,
-  },
-  dashboardCard: {
-    backgroundColor: Colors.white,
-    borderRadius: 15,
-    padding: 10,
-    borderWidth: 1,
-    borderColor: Colors.border,
-    width: '48%',
-    alignItems: "flex-start",
   },
   title: {
     fontFamily: Fonts.Poppins.SemiBold,

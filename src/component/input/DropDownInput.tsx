@@ -6,11 +6,14 @@ import { Colors } from '../../theme/Colors'
 import { Fonts } from '../../assets/fonts'
 
 type DropDownInputProps = InputProps & {
+    selectedItem?: (txt: string) => void
 }
 
 const DropDownInput = ({
     label,
-    editable = false
+    editable = false,
+    selectedItem,
+    ...props
 }: DropDownInputProps) => {
 
     const [toogle, setToogle] = useState(false);
@@ -28,6 +31,7 @@ const DropDownInput = ({
 
     return (<View >
         <InputField
+            {...props}
             value={selectedOption}
             label={label}
             editable={editable}
@@ -44,11 +48,12 @@ const DropDownInput = ({
                 scrollEnabled
                 keyboardShouldPersistTaps="handled"
                 showsVerticalScrollIndicator={false}
-                contentContainerStyle={{paddingBottom:10}}
+                contentContainerStyle={{ paddingBottom: 10 }}
             >
                 {options.map((item, index) => (
                     <TouchableOpacity key={index} onPress={() => {
                         setSelectedOption(item)
+                        selectedItem?.(item)
                         setToogle(false)
                     }}>
                         <Text style={styles.optionTxtStyle}>

@@ -1,80 +1,32 @@
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import AppHeader from '../../../../component/header/AppHeader'
 import SafeAreaFile from '../../../../helper/uiComponent/SafeAreaFile'
 import { CommonStyle } from '../../../../helper/uiComponent/CommonStyle'
 import { Fonts } from '../../../../assets/fonts'
 import { Colors } from '../../../../theme/Colors'
-import MenuContainer, { MenuDataPropsType } from '../../../../component/container/MenuContainer'
-import { Images } from '../../../../assets/images'
+import MenuContainer from '../../../../component/container/MenuContainer'
 import EditModal from '../../../../component/modal/EditModal'
+import { mealListApi } from '../../../../network/ClientApi'
+import { useMealStore } from '../../../../store/mealListStore'
+import { MealListResponseProps } from '../../../../types/ApiResponseType'
+import NoDataFound from '../../../../component/other/NoDataFound'
 
 const MenuTab = () => {
-  const OrderListProps: MenuDataPropsType[] = [
-    {
-      id: "1",
-      amount: '70',
-      date: "20 Aug 2026",
-      foodItem: "Lunch. dal Fired,",
-      image: Images.KITCHEN_1,
-      isRated: false,
-      KitchenName: "Mon",
-    },
-    {
-      id: "2",
-      amount: '70',
-      date: "20 Aug 2026",
-      foodItem: "Lunch. dal Fired,",
-      image: Images.KITCHEN_1,
-      isRated: true,
-      KitchenName: "Tue",
-    },
-    {
-      id: "3",
-      amount: '70',
-      date: "20 Aug 2026",
-      foodItem: "Lunch. dal Fired,",
-      image: Images.KITCHEN_1,
-      isRated: true,
-      KitchenName: "Wed",
-    }, {
-      id: "4",
-      amount: '70',
-      date: "20 Aug 2026",
-      foodItem: "Lunch. dal Fired,",
-      image: Images.KITCHEN_1,
-      isRated: true,
-      KitchenName: "Thu",
-    }, {
-      id: "5",
-      amount: '70',
-      date: "20 Aug 2026",
-      foodItem: "Lunch. dal Fired,",
-      image: Images.KITCHEN_1,
-      isRated: true,
-      KitchenName: "Fri",
-    },
-    {
-      id: "6",
-      amount: '70',
-      date: "20 Aug 2026",
-      foodItem: "Lunch. dal Fired,",
-      image: Images.KITCHEN_1,
-      isRated: true,
-      KitchenName: "Sat",
-    },
-    {
-      id: "7",
-      amount: '70',
-      date: "20 Aug 2026",
-      foodItem: "Lunch. dal Fired,",
-      image: Images.KITCHEN_1,
-      isRated: true,
-      KitchenName: "Sun",
-    },
-
-  ]
   const [editModalVisble, setEditModalVisible] = useState(false)
+  const { mealList } = useMealStore()
+  const mealListHandler = async () => {
+    try {
+      await mealListApi()
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  useEffect(() => {
+    mealListHandler()
+  }, [])
+
+
   return (
     <View style={CommonStyle.appBackground}>
       <SafeAreaFile>
@@ -86,20 +38,25 @@ const MenuTab = () => {
               <Text style={styles.subTitle}>Weekly tiffin plan</Text>
             }
           />
-          <ScrollView showsVerticalScrollIndicator={false}
-          style={{flex:1}}
-          contentContainerStyle={{ marginTop: 10, gap: 10, paddingBottom:20}}>
-            {
-              OrderListProps.map(item => (
-                <MenuContainer
-                  key={item.id}
-                  data={item}
-                  isEditable
-                  onEditPress={() => setEditModalVisible(true)}
-                />
-              ))
-            }
-          </ScrollView>
+
+          {
+            Array.isArray(mealList) && mealList.length > 0 ?
+              <ScrollView showsVerticalScrollIndicator={false}
+                style={{ flex: 1 }}
+                contentContainerStyle={{ marginTop: 10, gap: 10, paddingBottom: 20 }}>
+                {
+                  mealList && Array.isArray(mealList) && mealList.map((item: MealListResponseProps) => (
+                    <MenuContainer
+                      key={item._id}
+                      data={item}
+                      isEditable
+                      onEditPress={() => setEditModalVisible(true)}
+                    />
+                  ))
+                }
+              </ScrollView>
+              : <NoDataFound />
+          }
         </View>
       </SafeAreaFile>
       <EditModal isVisible={editModalVisble} onClose={() => setEditModalVisible(false)} />

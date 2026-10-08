@@ -8,6 +8,7 @@ import AppButton from '../../component/button/AppButton'
 import InputField from '../../component/input/InputField'
 import Storage from '../../utils/Storage'
 import KeyboardWrapper from '../../utils/KeyboardWrapper'
+import localStorage from '../../storage/LocalStorage'
 const OtpVerificationScreen = ({ navigation }: any) => {
     const OTP_LENGTH = 6
     const RESEND_TIME = 50
@@ -15,16 +16,16 @@ const OtpVerificationScreen = ({ navigation }: any) => {
     const [timer, setTimer] = useState(RESEND_TIME)
     const [errorMsg, setErrorMsg] = useState('')
     const inputRefs = useRef<Array<TextInput | null>>([])
-    const [userType, setUserType] = useState('')
+    // const [userType, setUserType] = useState('')
 
-    const getUserType = async () => {
-        const userType = await Storage.getItem({ key: 'userType' })
-        console.log('userType:', userType)
-        setUserType(userType || '')
-    }
-    useEffect(() => {
-        getUserType()
-    }, [])
+    // const getUserType = async () => {
+    //     const userType = await Storage.getItem({ key: 'userType' })
+    //     console.log('userType:', userType)
+    //     setUserType(userType || '')
+    // }
+    // useEffect(() => {
+    //     getUserType()
+    // }, [])
 
     useEffect(() => {
         if (timer === 0) {
@@ -75,10 +76,10 @@ const OtpVerificationScreen = ({ navigation }: any) => {
         inputRefs.current[0]?.focus()
     }
     const handleContinue = () => {
-
+        const userType = localStorage.getItem("userType")
         if (userType === 'buyer') {
             navigation.navigate('ChooseLocationScreen')
-        } else if (userType === 'seller') {
+        } else {
             navigation.navigate('KitchenRegisterScreen')
         }
     }
@@ -135,7 +136,7 @@ const OtpVerificationScreen = ({ navigation }: any) => {
                                     <Text style={[styles.bottomTxt, { color: Colors.primary }]}>Resend</Text>
                                     :
                                     <Text style={styles.timmerTxt}>
-                                      Resend SMS in {timer.toString().padStart(2, '0')}s
+                                        Resend SMS in {timer.toString().padStart(2, '0')}s
                                     </Text>
 
                             }

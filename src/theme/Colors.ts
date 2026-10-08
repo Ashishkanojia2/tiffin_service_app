@@ -30,6 +30,7 @@ export const Colors = {
   border: '#EDE3D8',
   green: '#27935b',
   light_green_shade :"#def9e5",
+  light_red_shade:"#fed4d4",
 
   hightLighted_green: '#80f4b8',
   hightLighted_red: '#f3a29f',

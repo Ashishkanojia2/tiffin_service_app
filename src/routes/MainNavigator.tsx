@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native'
-import React, { useEffect, useLayoutEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import RateScreen from '../screens/mainSection/RateScreen'
 import NotificationScreen from '../screens/mainSection/NotificationScreen'
@@ -8,34 +8,27 @@ import MealDetailsScreen from '../screens/mainSection/MealDetailsScreen'
 import SubscriptionScreen from '../screens/mainSection/subscription/SubscriptionScreen'
 import SubscriptionConfirmedScreen from '../screens/mainSection/subscription/SubscriptionConfirmedScreen'
 import SellerBottomTabNavigator from './SellerBottomTabNavigator'
-import Storage from '../utils/Storage'
 import ReviewScreen from '../screens/mainSection/sellerSection/ReviewScreen'
 import HelpAndSupportScreen from '../screens/infoSection/HelpAndSupportScreen'
 import TermsAndConditionsScreen from '../screens/infoSection/TermsAndConditionsScreen'
 import PrivacyPolicyScreen from '../screens/infoSection/PrivacyPolicyScreen'
 import EditProfileScreen from '../screens/mainSection/EditProfileScreen'
 import EditMenuScreen from '../screens/mainSection/sellerSection/EditMenuScreen'
+import localStorage from '../storage/LocalStorage'
 
 const Stack = createNativeStackNavigator()
-
-
-const getUserType = async (): Promise<string | null> => {
-    return await Storage.getItem({ key: 'userType' });
-};
-
 const MainNavigator = () => {
+    const userType = localStorage.getItem('userType');
     const [initialRoute, setInitialRoute] = useState<string | null>(null);
 
     useEffect(() => {
         const fetchUserType = async () => {
-            const type = await getUserType();
-            if (type === 'seller') {
+            if (userType === 'seller') {
                 setInitialRoute('SellerBottomTabNavigator');
             } else {
                 setInitialRoute('BottomTabNavigator');
             }
         };
-
         fetchUserType();
     }, []);
 

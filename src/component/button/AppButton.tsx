@@ -1,4 +1,4 @@
-import { StyleProp, StyleSheet, Text, TextStyle, TouchableOpacity, View, ViewStyle } from 'react-native'
+import { ActivityIndicator, StyleProp, StyleSheet, Text, TextStyle, TouchableOpacity, View, ViewStyle } from 'react-native'
 import React, { ReactNode } from 'react'
 import { Colors } from '../../theme/Colors'
 import { Fonts } from '../../assets/fonts'
@@ -11,7 +11,8 @@ type AppButtonStyle = {
     lable: string,
     buttonType?: "FIELD" | "OUTLINE",
     prefix?: ReactNode
-    sufix?: ReactNode
+    sufix?: ReactNode,
+    loading?: boolean
 }
 
 const AppButton = ({
@@ -21,16 +22,20 @@ const AppButton = ({
     lable = 'App_Button',
     prefix,
     sufix,
-    buttonType = "FIELD"
+    buttonType = "FIELD",
+    loading
 }: AppButtonStyle) => {
     let isFieldButton = buttonType == "FIELD"
     return (
-        <TouchableOpacity style={[styles.baseButtonStyle,
+        <TouchableOpacity disabled={loading} style={[styles.baseButtonStyle,
         isFieldButton ? styles.fieldButton : styles.outlineButton, buttonStyle]} activeOpacity={0.7} onPress={onPress}>
             {
                 prefix && <View>{prefix}</View>
             }
-            <Text style={[styles.txtStyle, { color: isFieldButton ? Colors.background : Colors.primary }, textStyle]}>{lable}</Text>
+            {
+                loading ? <ActivityIndicator size={"small"} color={Colors.white} /> :
+                    <Text style={[styles.txtStyle, { color: isFieldButton ? Colors.background : Colors.primary }, textStyle]}>{lable}</Text>
+            }
             {
                 sufix && <View>{sufix}</View>
             }
@@ -57,7 +62,7 @@ const styles = StyleSheet.create({
     outlineButton: {
         borderWidth: 2,
         borderColor: Colors.border,
-        backgroundColor:Colors.background
+        backgroundColor: Colors.background
     },
     txtStyle: {
         fontFamily: Fonts.Poppins.SemiBold,

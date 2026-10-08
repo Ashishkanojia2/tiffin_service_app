@@ -1,82 +1,139 @@
-import { Image, StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native'
-import React from 'react'
-import { Icons } from '../../assets/icons'
-import { Colors } from '../../theme/Colors'
-import { Fonts } from '../../assets/fonts'
-import { CommonStyle } from '../../helper/uiComponent/CommonStyle'
+import {
+  Image,
+  StyleProp,
+  StyleSheet,
+  Text,
+  View,
+  ViewStyle,
+} from 'react-native';
+import React from 'react';
+
+import { Icons } from '../../assets/icons';
+import { Colors } from '../../theme/Colors';
+import { Fonts } from '../../assets/fonts';
+import { CommonStyle } from '../../helper/uiComponent/CommonStyle';
 
 type TagProps = {
-  tagCategory: "MEAL" | "RATING",
-  MealType?: "Veg" | "Non-veg",
-  rating?: string,
-  containerStyle?: StyleProp<ViewStyle>
-}
-
+  tagCategory: 'MEAL' | 'RATING';
+  MealType?: 'Veg' | 'Non-veg';
+  rating?: string;
+  containerStyle?: StyleProp<ViewStyle>;
+};
 
 const Tag = ({
   tagCategory,
   MealType,
   rating,
-  containerStyle
+  containerStyle,
 }: TagProps) => {
-  return (
-    <View style={[styles.dotContaner,
-    {
-      backgroundColor:
-        tagCategory === "MEAL" ?
-          Colors.light_green_shade
-          : Colors.vegDot
-    }, containerStyle]}>
-      {
-        tagCategory === "MEAL" ?
-          <View style={styles.dot} />
-          :
-          <Image
-            source={Icons.STAR_FILLED}
-            style={{ height: 12, width: 12 }}
-            tintColor={Colors.white}
-            resizeMode='contain'
-          />
-      }
-      {
-        tagCategory === "MEAL" ?
-          <Text style={styles.mealTypeTxtStyle}>{MealType}</Text>
-          :
-          <Text style={styles.ratingTxtStyle}>{rating}
-          </Text>
-      }
-    </View>
-  )
-}
+  const isMeal = tagCategory === 'MEAL';
+  const isVeg = MealType === 'Veg';
 
-export default Tag
+  return (
+    <View
+      style={[
+        styles.dotContainer,
+
+        {
+          backgroundColor: isMeal
+            ? isVeg
+              ? Colors.light_green_shade
+              : Colors.light_red_shade
+            : Colors.primary,
+        },
+
+        containerStyle,
+      ]}
+    >
+      {/* Icon / Dot */}
+      {isMeal ? (
+        <View
+          style={[
+            styles.dot,
+            {
+              backgroundColor: isVeg
+                ? Colors.vegDot
+                : Colors.nonVegDot,
+            },
+          ]}
+        />
+      ) : (
+        <Image
+          source={Icons.STAR_FILLED}
+          style={styles.starIcon}
+          tintColor={Colors.white}
+          resizeMode="contain"
+        />
+      )}
+
+      {/* Text */}
+      {isMeal ? (
+        <Text
+          style={[
+            styles.mealTypeTxtStyle,
+            {
+              color: isVeg
+                ? Colors.vegDot
+                : Colors.nonVegDot,
+            },
+          ]}
+        >
+          {MealType}
+        </Text>
+      ) : (
+        <Text style={styles.ratingTxtStyle}>
+          {rating}
+        </Text>
+      )}
+    </View>
+  );
+};
+
+export default Tag;
 
 const styles = StyleSheet.create({
-  dotContaner: {
+  dotContainer: {
     ...CommonStyle.flexStyle,
+
     justifyContent: 'space-between',
+
     gap: 5,
+
     paddingHorizontal: 10,
     paddingVertical: 5,
+
     borderRadius: 15,
-    alignSelf: "flex-start"
+
+    alignSelf: 'flex-start',
   },
-  mealTypeTxtStyle: {
-    fontSize: 12,
-    color: Colors.vegDot,
-    fontFamily: Fonts.Poppins.Medium
-  },
-  ratingTxtStyle: {
-    fontSize: 13,
-    color: Colors.white,
-    fontFamily: Fonts.Poppins.Medium,
-    textAlign: "center",
-    includeFontPadding: false
-  },
+
   dot: {
     width: 10,
     height: 10,
-    backgroundColor: Colors.vegDot,
+
     borderRadius: 20,
   },
-})
+
+  starIcon: {
+    width: 12,
+    height: 12,
+  },
+
+  mealTypeTxtStyle: {
+    fontSize: 12,
+
+    fontFamily: Fonts.Poppins.Medium,
+  },
+
+  ratingTxtStyle: {
+    fontSize: 13,
+
+    color: Colors.white,
+
+    fontFamily: Fonts.Poppins.Medium,
+
+    textAlign: 'center',
+
+    includeFontPadding: false,
+  },
+});

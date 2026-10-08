@@ -6,45 +6,36 @@ import { Fonts } from '../../assets/fonts'
 import IconContainer from '../other/IconContainer'
 import { Icons } from '../../assets/icons'
 import Tag from '../tag/Tag'
+import { MealListResponseProps } from '../../types/ApiResponseType'
 
 export type MenuContainerPropsType = {
-    data: MenuDataPropsType,
+    data: MealListResponseProps,
     isEditable?: boolean,
     onEditPress?: () => void
+}
 
-}
-export type MenuDataPropsType = {
-    id?: string
-    KitchenName?: string,
-    foodItem?: string,
-    date?: string,
-    amount?: string,
-    isRated?: boolean,
-    onPress?: () => void,
-    image?: ImageSourcePropType
-}
 const MenuContainer = ({
     data,
     isEditable = false,
     onEditPress
 }: MenuContainerPropsType) => {
     return (
-        <TouchableOpacity style={styles.rootContainer} activeOpacity={0.8} onPress={data.onPress} key={data.id}>
+        <TouchableOpacity style={styles.rootContainer} activeOpacity={0.8} key={data._id}>
             <View style={[CommonStyle.flexStyle, { gap: 5, flex: 5, }]}>
-                <Image source={data?.image} style={{ height: 70, width: 70, borderRadius: 15, alignSelf: "flex-start" }} resizeMode='cover' />
+                <Image source={{ uri: data?.mealImage?.url.replace('http://', 'https://') }} style={{ height: 70, width: 70, borderRadius: 15, alignSelf: "flex-start" }} resizeMode='cover' />
                 <View style={{ flex: 1 }}>
                     <View style={[CommonStyle.flexStyle, { gap: isEditable ? 10 : 0 }]}>
-                        <Text style={[styles.titleTxtStyle, { flex: isEditable ? 0 : 1 }]}>{data.KitchenName}</Text>
-                        <Tag tagCategory='MEAL' MealType='Veg' />
+                        <Text style={[styles.titleTxtStyle, { flex: isEditable ? 0 : 1 }]}>{data.mealDay}</Text>
+                        <Tag tagCategory='MEAL' MealType={data.mealType == "Veg" ? "Veg" : "Non-veg"} />
                     </View>
-                    <Text style={styles.subTitle}>{data.foodItem}</Text>
-                    <Text style={styles.amtStyle}>₹ {data.amount}</Text>
+                    <Text style={styles.subTitle}>{data.mealName}.{data.mealTime}</Text>
+                    <Text style={styles.amtStyle}>₹ {data.price}</Text>
                 </View>
             </View>
-                {
-                    isEditable &&
-                    <IconContainer source={Icons.EDIT} style={{ height: 20, width: 20 }} onPress={onEditPress} />
-                }
+            {
+                isEditable &&
+                <IconContainer source={Icons.EDIT} style={{ height: 20, width: 20 }} onPress={onEditPress} />
+            }
         </TouchableOpacity>
     )
 }
@@ -60,15 +51,15 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         ...CommonStyle.flexStyle,
         justifyContent: "space-between",
-        borderWidth:1,
-        borderColor:Colors.border
+        borderWidth: 1,
+        borderColor: Colors.border
     },
     amtStyle: {
         fontSize: 16,
         color: Colors.primary,
         fontFamily: Fonts.Poppins.SemiBold,
-        includeFontPadding:false
-        
+        includeFontPadding: false
+
     },
     ratedTxtStyle: {
         fontSize: 14,

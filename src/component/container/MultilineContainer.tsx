@@ -9,13 +9,15 @@ type MultipLineContainerProps = {
     lengthTextStyle?: StyleProp<TextStyle>
     lable: string,
     placeholder: string,
+    value: (txt: string) => void
 
 }
 const MultilineContainer = ({
     maxTextLenght = 200,
     lableStyle, lengthTextStyle,
     lable,
-    placeholder ='Write something here...'
+    placeholder = 'Write something here...',
+    value,
 }: MultipLineContainerProps) => {
     const MAX_REVIEW_LIMIT = maxTextLenght;
     const [message, setMessage] = useState('');
@@ -38,7 +40,10 @@ const MultilineContainer = ({
                 //         scrollViewRef.current?.scrollToEnd({ animated: true });
                 //     }, 250);
                 // }}
-                onChangeText={setMessage}
+                onChangeText={(txt: string) => {
+                    setMessage(txt)
+                    value(txt)
+                }}
             />
             <Text style={[styles.bottomTxtStyle, lengthTextStyle]}>
                 {MAX_REVIEW_LIMIT - message.length} remaining
