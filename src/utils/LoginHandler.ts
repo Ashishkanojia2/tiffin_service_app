@@ -12,7 +12,7 @@ export const LoginHandler = (): LoginRoute => {
     const token = localStorage.getItem(STORE_KEY.TOKEN);
     const userType = localStorage.getItem(STORE_KEY.USERTYPE);
     const kitchenId = localStorage.getItem(STORE_KEY.KITCHEN_ID);
-    const isAddressAdded = false;
+    const isAddressAdded = true;
 
     if (!token || !userType) {
       return null;

@@ -11,7 +11,6 @@ type KitchenStore = {
 export const useKitchenStore = create<KitchenStore>(set => ({
   kitchenData: null,
   setKitchenData: data => (
-    console.log('123456789', data),
     set({
       kitchenData: data,
     })

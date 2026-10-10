@@ -84,7 +84,6 @@ const EditModal = ({
             });
         }
     }, [mealData, isVisible]);
-    console.log("data", data);
 
 
     const handleChange = <Key extends keyof AddMealFormDataProps>(
@@ -150,7 +149,6 @@ const EditModal = ({
                     })
                 }, 3000)
             }
-            console.log("response api calling:", response)
         } catch (error) {
             console.log("error api calling:", error)
             throw error

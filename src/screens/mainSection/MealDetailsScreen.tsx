@@ -1,9 +1,8 @@
 import { Dimensions, ImageBackground, StyleSheet, Text, View } from 'react-native';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { CommonStyle } from '../../helper/uiComponent/CommonStyle';
 import SafeAreaFile from '../../helper/uiComponent/SafeAreaFile';
 import AppHeader from '../../component/header/AppHeader';
-import { Images } from '../../assets/images';
 import { Fonts } from '../../assets/fonts';
 import { Colors } from '../../theme/Colors';
 import Segement, { SegementDataPropType } from '../../component/segement';
@@ -12,7 +11,17 @@ import { ReviewDataPropType } from '../../component/container/ReviewContainer';
 import Tag from '../../component/tag/Tag';
 import WeekMenuSection from '../../component/sections/WeekMenuSection';
 import ReviewSection from '../../component/sections/ReviewSection';
-const { height, width } = Dimensions.get("window")
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../../types/AppTypes';
+import { mealListApi } from '../../network/ClientApi';
+import localStorage from '../../storage/LocalStorage';
+import { STORE_KEY } from '../../storage/StoreKey';
+import { useMealStore } from '../../store/mealListStore';
+
+type MealDetailsScreenProps = NativeStackScreenProps<
+  RootStackParamList,
+  'MealDetailsScreen'
+>;
 const segementData: SegementDataPropType[] = [
   {
     id: 'thisWeekMenu',
@@ -99,12 +108,29 @@ const reviewData: ReviewDataPropType[] = [
     date: '09 Aug',
   },
 ];
-const MealDetailsScreen = ({ navigation }: any) => {
+const MealDetailsScreen = ({ navigation, route }: MealDetailsScreenProps) => {
+  const { kitchenData } = route.params
   const [segementValue, setSegementValue] = useState('thisWeekMenu');
+  const { setMealList } = useMealStore()
+  const apiHandler = async () => {
+    try {
+      localStorage.setItem(STORE_KEY.KITCHEN_ID, kitchenData.kitchenId)
+      const res = await mealListApi()
+      if (res.success && res?.result) {
+        setMealList(res?.result)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  useEffect(() => {
+    apiHandler()
+  }, [kitchenData])
+
   return (
     <SafeAreaFile style={[CommonStyle.appBackground]} edges={['top', "bottom"]}>
       <ImageBackground
-        source={Images.KITCHEN_1}
+        source={{ uri: kitchenData.kitchenPhoto.url }}
         style={styles.imageStyle}
         resizeMode="cover"
       >
@@ -116,32 +142,38 @@ const MealDetailsScreen = ({ navigation }: any) => {
       </ImageBackground>
 
       <View style={{ paddingTop: 10, ...CommonStyle.appBorderSpacing, flex: 0 }}>
-        <View style={{ gap: 5 }}>
+        <View style={{ gap: 5, marginBottom: 7 }}>
           <View style={[CommonStyle.flexStyle, { justifyContent: 'space-between' }]}>
-            <Text style={styles.titleStyle}>Annupma Kitchen</Text>
-            <Tag tagCategory='RATING' rating='4.7' />
+            <Text style={styles.titleStyle}>{kitchenData.kitchenName ?? ''}</Text>
+            <Tag tagCategory='RATING' rating={kitchenData?.rating ?? 0} />
           </View>
-          <Text style={styles.subTitleStyle}>by Sunita Sharma</Text>
+          <Text style={styles.subTitleStyle}>by {kitchenData?.ownerName}</Text>
           <Text style={styles.subTitleStyle}>
-            Location: Goal market, near goal bazar, jaipur
+            Location: {kitchenData?.address},{kitchenData.landMark}
           </Text>
           <Text style={styles.subTitleStyle}>
-            Lunch 12:30 PM • Dinner 8:00 PM oo Delivery + Pickup
+            {kitchenData?.mealTime} oo {kitchenData?.DeliveryType}
           </Text>
           <View
             style={[CommonStyle.flexStyle, { justifyContent: 'space-between' }]}
           >
             <Text style={styles.priceTxtStyle}>
-              ₹ 70 <Text style={styles.mealTxtStyle}>/ meal</Text>
+              ₹ {kitchenData?.pricePerMeal} <Text style={styles.mealTxtStyle}>/ meal</Text>
             </Text>
           </View>
+          {
+            kitchenData?.foodType.map((item) => {
+              return (
+                <Tag tagCategory='MEAL' MealType={item.label == "veg" ? 'Veg' : "Non-veg"} />
+              )
+            })
+          }
         </View>
-        <Tag tagCategory='MEAL' MealType='Veg' containerStyle={{ marginVertical: 7 }} />
         <Segement
           segementData={segementData}
           selectedValue={(txt: string) => setSegementValue(txt)}
           optionTxtStyle={styles.segementTxtStyle}
-          optionContainerStyle={{ paddingHorizontal: 5 }}
+          optionContainerStyle={{ paddingHorizontal: 0 }}
         />
       </View>
       <View style={{ gap: 10, marginVertical: 10, paddingHorizontal: 5, flex: 1 }}>
@@ -150,8 +182,7 @@ const MealDetailsScreen = ({ navigation }: any) => {
         ) : segementValue === 'about' ? (
           <View style={styles.aboutContainer}>
             <Text style={styles.aboutTitleTxtStyle}>
-              Pure veg ghar ka khana cooked fresh twice a day by Sunita ji.
-              Low oil, no onion-garlic option available on request.
+              {kitchenData?.aboutKitchen}
             </Text>
             <Text style={styles.aboutSubTitleStyle}>
               FSSAI verified • Serving since 2023 • 128 happy customers
@@ -169,7 +200,7 @@ const MealDetailsScreen = ({ navigation }: any) => {
       >
         <View style={{ paddingHorizontal: 10 }}>
           <Text style={styles.bottomTitleStyle}>Starting at</Text>
-          <Text style={styles.bottomSubTitleStyle}>₹ 70 / meal</Text>
+          <Text style={styles.bottomSubTitleStyle}>₹ {kitchenData?.pricePerMeal}/ meal</Text>
         </View>
         <AppButton
           lable="Subscribe Now"
@@ -208,7 +239,7 @@ const styles = StyleSheet.create({
     color: Colors.textSecondary,
   },
   segementTxtStyle: {
-    fontSize: 14
+    fontSize: Dimensions.get("window").width / 35
   },
   bottomTitleStyle: {
     fontSize: 15,

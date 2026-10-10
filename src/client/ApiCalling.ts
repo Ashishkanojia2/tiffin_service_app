@@ -19,8 +19,6 @@ axiosClient.interceptors.request.use(
     console.log('=============================');
     console.log('=============================');
     console.log('========== REQUEST ==========');
-    console.log('=============================');
-    console.log('=============================');
     console.log('data', config.data);
     console.log('=============================');
 

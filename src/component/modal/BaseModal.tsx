@@ -12,9 +12,10 @@ export type BaseModalProps = {
     children?: ReactNode,
     popupType?: "BOTTOM_SHEET" | "MODAL",
     headerTitle?: string,
+    scrollEnabled?: boolean,
 }
 const BaseModal = ({ isVisible, onClose, children,
-    popupType = "MODAL", headerTitle,
+    popupType = "MODAL", headerTitle, scrollEnabled = true,
 }: BaseModalProps) => {
     return (
         <Modal
@@ -28,12 +29,13 @@ const BaseModal = ({ isVisible, onClose, children,
                     <View style={[styles.overlay, {
                         justifyContent: popupType == "MODAL" ? "center" : "flex-end"
                     }]}>
-                        <TouchableWithoutFeedback>
+                        <TouchableWithoutFeedback> 
                             <View style={[popupType == "MODAL" ? styles.modalRootContainer : styles.rootContainer]}>
                                 <TouchableOpacity style={{ alignSelf: "flex-end" }} activeOpacity={0.7} onPress={onClose}>
                                     <Image source={Icons.CLOSE} style={{ height: 24, width: 24 }} resizeMode="contain" />
                                 </TouchableOpacity>
                                 <ScrollView
+                                    scrollEnabled={scrollEnabled}
                                     keyboardShouldPersistTaps="handled"
                                     showsVerticalScrollIndicator={false}
                                     contentContainerStyle={{

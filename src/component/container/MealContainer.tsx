@@ -6,27 +6,35 @@ import { Images } from '../../assets/images'
 import { Fonts } from '../../assets/fonts'
 import { Icons } from '../../assets/icons'
 import Tag from '../tag/Tag'
+import { KitchenListResponseProps } from '../../types/ApiResponseType'
 type MealContainerProps = {
     onPress?: () => void,
+    data?: KitchenListResponseProps
 }
 const MealContainer = ({
     onPress,
-
+    data
 }: MealContainerProps) => {
     return (
         <TouchableOpacity style={styles.rootContainer} activeOpacity={0.8} onPress={onPress}>
-            <Image source={Images.KITCHEN_1} style={{ width: '100%', height: 150, borderTopRightRadius:15 , borderTopLeftRadius:15 }} />
-            <View style={{ padding: 10, gap: 10 }}>
+            <Image source={{ uri: data?.kitchenPhoto.url }} style={{ width: '100%', height: 150, borderTopRightRadius: 15, borderTopLeftRadius: 15 }} />
+            <View style={{ padding: 10, gap: 7 }}>
                 <View style={[CommonStyle.flexStyle, { justifyContent: "space-between" }]}>
-                    <Text style={styles.titleStyle}>MealContainer</Text>
-                    <Tag tagCategory='MEAL' MealType='Veg'/>
+                    <Text style={styles.titleStyle}>{data?.kitchenName}</Text>
+                    {
+                        data?.foodType.map((item) => {
+                            return (
+                                <Tag tagCategory='MEAL' MealType={item.label == "veg" ? 'Veg' : "Non-veg"} />
+                            )
+                        })
+                    }
                 </View>
-                <Text style={styles.locationTxtStyle}>MealContainer</Text>
-                <Text style={styles.menuTxt}>Today: Aloo Gobhi, Dal, Rice, 4 Roti</Text>
+                <Text style={styles.locationTxtStyle}>{data?.address},{data?.landMark}</Text>
+                <Text style={styles.menuTxt}>Today:{data?.todayMenu?.mealName ?? ''}</Text>
 
                 <View style={[CommonStyle.flexStyle, { justifyContent: "space-between" }]}>
                     <Text style={styles.priceTxtStyle}>
-                        ₹ 70 <Text style={styles.mealTxtStyle}>/ meal</Text>
+                        ₹ {data?.pricePerMeal} <Text style={styles.mealTxtStyle}>/ meal</Text>
                     </Text>
                     <TouchableOpacity style={CommonStyle.flexStyle} activeOpacity={0.8} onPress={onPress}>
                         <Text style={styles.viewAllStyle}>View Menu</Text>

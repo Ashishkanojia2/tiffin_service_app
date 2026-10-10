@@ -1,4 +1,5 @@
 import type { Asset } from 'react-native-image-picker';
+import { ChoosePlanProps } from './AppTypes';
 
 export type LoginRequestProp = {
   phone: string;
@@ -19,7 +20,10 @@ export type KitchenRegistrationForm = {
 };
 
 export type RegisterKitchenRequestProps = FormData;
-export type AddMealRequestProps = FormData
+export type AddMealRequestProps = FormData;
+export type ChooseMealPlanRequestProps = ChoosePlanProps & {
+  finalAmount: string | number;
+};
 
 export type AddMealFormDataProps = {
   mealImage: Asset | null;

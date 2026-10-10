@@ -72,3 +72,59 @@ export type MealListResponseProps = {
   mealType: string;
   price: string;
 };
+
+export type KitchenListResponseProps = {
+  DeliveryType: string;
+  address: string;
+  foodType: FoodType[];
+  kitchenId: string;
+  kitchenName: string;
+  landMark: string;
+  mealTime: string;
+  pricePerMeal: string;
+  rating: string;
+  todayMenu: MealListResponseProps;
+  kitchenPhoto: MealImageProps;
+  aboutKitchen: string;
+  ownerName: string;
+};
+
+export type DeliveryType = {
+  lable: string;
+  title: string;
+};
+
+export type FoodPreference = {
+  label: string;
+};
+
+export type MealType = {
+  lable: string;
+  time: string;
+};
+
+export type Plan = {
+  day: string;
+  plan: string;
+  discount: string;
+  price: string | number;
+};
+
+export type PlanDetailResponseProps = {
+  deliveryCharge: string;
+  deliveryType: DeliveryType[];
+  foodPerference: FoodPreference[];
+  kitchenId: string;
+  kitchenName: string;
+  mealType: MealType[];
+  plans: Plan[];
+};
+
+export type SubscribeMealPlanResposneProps = {
+  amount: number;
+  kitchenName: string;
+  meal: string;
+  mode: string;
+  plan: string;
+  startOn: string;
+};

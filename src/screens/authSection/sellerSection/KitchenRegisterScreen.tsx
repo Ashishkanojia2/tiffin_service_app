@@ -96,16 +96,15 @@ const KitchenRegisterScreen = ({ navigation }: any) => {
         }
         try {
             const response = await RegisterKitchenRequest(formData)
-            if (response.success) {
+            if (response?.result && response.success) {
                 showSuccessToast({
                     text1: "Kitchen Register Successful",
                 })
                 setKitchenData(response?.result)
-                localStorage.setItem(STORE_KEY.KITCHEN_ID, response.result._id ?? '')
-                localStorage.setItem(STORE_KEY.KITCHEN_DASHBOARD_ID, response.result.kitchenDashboardId ?? '')
+                localStorage.setItem(STORE_KEY.KITCHEN_ID, response?.result?._id ?? '')
+                localStorage.setItem(STORE_KEY.KITCHEN_DASHBOARD_ID, response?.result?.kitchenDashboardId ?? '')
                 navigation.navigate("MainNavigator")
             }
-            console.log("response api calling:", response)
         } catch (error) {
             console.log("error api calling:", error)
             throw error

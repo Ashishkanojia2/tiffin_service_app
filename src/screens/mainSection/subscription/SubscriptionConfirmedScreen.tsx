@@ -6,8 +6,16 @@ import AppButton from '../../../component/button/AppButton'
 import { Icons } from '../../../assets/icons'
 import { Colors } from '../../../theme/Colors'
 import { Fonts } from '../../../assets/fonts'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
+import { RootStackParamList } from '../../../types/AppTypes'
+import DateReader from '../../../helper/DateReader'
 
-const SubscriptionConfirmedScreen = ({ navigation }: any) => {
+type MealDetailsScreenProps = NativeStackScreenProps<
+  RootStackParamList,
+  'SubscriptionConfirmedScreen'
+>;
+const SubscriptionConfirmedScreen = ({ navigation, route }: MealDetailsScreenProps) => {
+  const { subscribeMeal } = route.params
   return (
     <View style={CommonStyle.appBackground}>
       <SafeAreaFile>
@@ -19,24 +27,24 @@ const SubscriptionConfirmedScreen = ({ navigation }: any) => {
           <View style={styles.overallContainer}>
             <View style={[CommonStyle.flexStyle, { justifyContent: "space-between" }]}>
               <Text style={styles.detailsTxtStyle}>Kitchen</Text>
-              <Text style={styles.detailsTxtStyle}>Annapurna Home Kitchen</Text>
+              <Text style={styles.detailsTxtStyle}>{subscribeMeal.kitchenName}</Text>
             </View>
             <View style={[CommonStyle.flexStyle, { justifyContent: "space-between" }]}>
               <Text style={styles.detailsTxtStyle}>Plan</Text>
-              <Text style={styles.detailsTxtStyle}>Daily • Lunch</Text>
+              <Text style={styles.detailsTxtStyle}>{subscribeMeal.plan} • {subscribeMeal.meal == "Both" ? "Lunch + Dinner" : subscribeMeal.meal}</Text>
             </View>
             <View style={[CommonStyle.flexStyle, { justifyContent: "space-between" }]}>
               <Text style={styles.detailsTxtStyle}>Starts on</Text>
-              <Text style={styles.detailsTxtStyle}>Aug 29 2026</Text>
+              <Text style={styles.detailsTxtStyle}>{DateReader(subscribeMeal.startOn)}</Text>
             </View>
 
             <View style={[CommonStyle.flexStyle, { justifyContent: "space-between" }]}>
               <Text style={styles.detailsTxtStyle}>Mode</Text>
-              <Text style={styles.detailsTxtStyle}>Home Delivery</Text>
+              <Text style={styles.detailsTxtStyle}>{subscribeMeal.mode}</Text>
             </View>
             <View style={[CommonStyle.flexStyle, { justifyContent: "space-between", borderTopColor: Colors.border, borderTopWidth: 1, paddingVertical: 10 }]}>
               <Text style={styles.payableTxtStyle}>Amount</Text>
-              <Text style={[styles.payableTxtStyle, { color: Colors.primary }]}>₹ 3696</Text>
+              <Text style={[styles.payableTxtStyle, { color: Colors.primary }]}>₹ {subscribeMeal.amount}</Text>
             </View>
           </View>
 

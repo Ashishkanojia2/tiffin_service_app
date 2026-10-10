@@ -50,8 +50,6 @@ const OnboardingScreen = ({ navigation }: any) => {
     const handleSwipe = (event: any) => {
         const offsetX = event.nativeEvent.contentOffset.x;
         const index = Math.round(offsetX / width);
-        console.log("swsw", index);
-
         setCurrentIndex(index);
         scrollRef.current?.scrollTo({
             x: (width * index),

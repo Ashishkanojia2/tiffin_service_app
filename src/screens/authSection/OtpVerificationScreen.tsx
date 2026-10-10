@@ -16,17 +16,6 @@ const OtpVerificationScreen = ({ navigation }: any) => {
     const [timer, setTimer] = useState(RESEND_TIME)
     const [errorMsg, setErrorMsg] = useState('')
     const inputRefs = useRef<Array<TextInput | null>>([])
-    // const [userType, setUserType] = useState('')
-
-    // const getUserType = async () => {
-    //     const userType = await Storage.getItem({ key: 'userType' })
-    //     console.log('userType:', userType)
-    //     setUserType(userType || '')
-    // }
-    // useEffect(() => {
-    //     getUserType()
-    // }, [])
-
     useEffect(() => {
         if (timer === 0) {
             return

@@ -12,5 +12,10 @@ export const ENDPOINT = {
     KITCHEN_DASHBOARD: '/kitchen/getKitchenDashboard',
     MEAL_LIST: '/kitchen/getMealList',
     ADD_MEAL: '/kitchen/addMeal',
+    KITCHEN_LIST: '/kitchen/getKitchenList',
+  },
+  PLAN: {
+    PLAN_DETAILS: '/plan/getPlanDetails',
+    CHOOSE_PLAN: '/plan/planChoose',
   },
 };

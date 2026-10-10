@@ -10,12 +10,10 @@ type MealListStoreProps = {
 
 export const useMealStore = create<MealListStoreProps>(set => ({
   mealList: [],
-  setMealList: data => (
-    console.log('This data is Recived from zustand store', data),
+  setMealList: data =>
     set({
       mealList: data,
-    })
-  ),
+    }),
   clearMealList: () =>
     set({
       mealList: [],

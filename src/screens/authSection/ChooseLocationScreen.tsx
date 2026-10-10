@@ -25,6 +25,7 @@ const ChooseLocationScreen = ({ navigation }: any) => {
                 {
                     Array.from({ length: 10 }).map((item) => (
                         <InputField editable={false}
+                            
                             left={
                                 <Image source={Icons.MAP_PIN} style={{ height: 20, width: 20 }} />
                             }

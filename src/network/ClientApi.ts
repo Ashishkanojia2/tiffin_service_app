@@ -2,14 +2,22 @@ import { axiosClient } from '../client/ApiCalling';
 import localStorage from '../storage/LocalStorage';
 import { STORE_KEY } from '../storage/StoreKey';
 import { useKitchenDashboardStore } from '../store/KitchenDashboardStore';
+import { useKitchenListStore } from '../store/KitchenListStore';
 import { useMealStore } from '../store/mealListStore';
-import { AddMealRequestProps } from '../types/ApiRequestType';
+import {
+  AddMealRequestProps,
+  ChooseMealPlanRequestProps,
+} from '../types/ApiRequestType';
 import {
   ApiResponseType,
   KitchenDashBoardProps,
+  KitchenListResponseProps,
   MealListResponseProps,
+  PlanDetailResponseProps,
   RegisterKitchenResponseProps,
+  SubscribeMealPlanResposneProps,
 } from '../types/ApiResponseType';
+import { ChoosePlanProps } from '../types/AppTypes';
 import { ENDPOINT } from './ApiEndpoint';
 const token = localStorage.getItem(STORE_KEY.TOKEN);
 console.log(token);
@@ -32,7 +40,6 @@ export const KitchenDashboardApi = async (
       param ?? ''
     }`,
   );
-  console.log('dashboarddetails show', response);
   if (response.status) {
     setKitchenDashboardData(response.data.result ?? null);
   }
@@ -50,8 +57,6 @@ export const mealListApi = async (): Promise<
   if (response.status) {
     setMealList(response.data.result);
   }
-  console.log('dashboarddetails show', response);
-
   return response.data;
 };
 
@@ -71,4 +76,32 @@ export const editMealApi = async (request: AddMealRequestProps) => {
   // );
   // return response.data;
   return null;
+};
+
+export const kitchenListApi = async (): Promise<
+  ApiResponseType<KitchenListResponseProps>
+> => {
+  const { setKitchenListData } = useKitchenListStore.getState();
+  const response = await axiosClient.get(ENDPOINT.KITCHEN_CLIENT.KITCHEN_LIST);
+  if (response.status) {
+    setKitchenListData(response?.data?.result ?? []);
+  }
+  return response.data;
+};
+
+export const planDetailsApi = async (): Promise<
+  ApiResponseType<PlanDetailResponseProps>
+> => {
+  const param = localStorage.getItem(STORE_KEY.KITCHEN_ID);
+  const response = await axiosClient.get(
+    `${ENDPOINT.PLAN.PLAN_DETAILS}?kitchenId=${param ?? ''}`,
+  );
+  return response.data;
+};
+
+export const chooseMealPlanApi = async (
+  request: ChooseMealPlanRequestProps,
+): Promise<ApiResponseType<SubscribeMealPlanResposneProps>> => {
+  const response = await axiosClient.post(ENDPOINT.PLAN.CHOOSE_PLAN, request);
+  return response.data;
 };
